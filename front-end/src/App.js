@@ -1,24 +1,18 @@
-import logo from './logo.svg';
 import './App.css';
+import Header from 'components/Header/Header';
+import HamburgerMenu from 'components/HamburgerMenu';
+
 
 function App() {
 	return (
 		<div className="App">
-			<header className="App-header">
-				<img src={logo} className="App-logo" alt="logo" />
-				<div className="bg-blue-400">test</div>
-				<p className="">
-					test fff
-				</p>
-				<a
-					className="App-link"
-					href="https://reactjs.org"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					Learn React
-				</a>
-			</header>
+			<Header />
+			<div className="flex flex-row h-[90vh] z-0">
+				<HamburgerMenu />
+				<div className="w-full h-full bg-gray-100">
+					{/** <Dashboard /> */}
+				</div>
+			</div>
 		</div>
 	);
 }
