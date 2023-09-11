@@ -1,11 +1,12 @@
-const express = require('express')
-const app = express()
-const port = 3000
+const { app } = require("./server");
+const connectDB = require("./config/database.js");
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
+connectDB();
+
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
+    console.log(`App listening on port ${port}`);
+});
+
+module.exports = { app };
