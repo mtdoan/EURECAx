@@ -1,19 +1,20 @@
-import './App.css';
-import Header from 'components/Header/Header';
-import HamburgerMenu from 'components/HamburgerMenu';
+import React, { useState } from 'react';
+import { HashRouter as Router, Route, Routes } from "react-router-dom"
 
+import SignIn from './components/auth/SignIn';
+import Dashboard from './components/dashboard/Dashboard';
 
 function App() {
+	global.route = 'http://localhost:3000';
+
 	return (
-		<div className="App">
-			<Header />
-			<div className="flex flex-row h-[90vh] z-0">
-				<HamburgerMenu />
-				<div className="w-full h-full bg-gray-100">
-					{/** <Dashboard /> */}
-				</div>
-			</div>
-		</div>
+		<Router>
+			<Routes>
+				<Route path="/" element={<Dashboard />} />
+				<Route path="/signIn" element={<SignIn />} />
+				<Route path="/dashboard" element={<Dashboard />} />
+			</Routes>
+		</Router>
 	);
 }
 
