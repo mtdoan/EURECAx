@@ -1,3 +1,4 @@
+import ChallengeStatement from 'components/ChallengeStatement';
 import React, { useState } from 'react';
 import { HashRouter as Router, Route, Routes } from "react-router-dom"
 
@@ -12,7 +13,8 @@ function App() {
 			<Routes>
 				<Route path="/" element={<Dashboard />} />
 				<Route path="/signIn" element={<SignIn />} />
-				<Route path="/dashboard" element={<Dashboard />} />
+				<Route path="/dashboard" element={<Dashboard />} >
+				</Route>
 			</Routes>
 		</Router>
 	);
