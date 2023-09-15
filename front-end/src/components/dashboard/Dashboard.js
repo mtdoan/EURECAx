@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
-import Header from './Header';
-import HamburgerMenu from './HamburgerMenu';
-import ChallengeStatement from "components/ChallengeStatement";
+import { Outlet, useNavigate } from "react-router-dom";
+import Header from "./Header";
+import HamburgerMenu from "./HamburgerMenu";
 
 export default function Dashboard({ children }) {
 	let navigate = useNavigate();
@@ -55,13 +54,10 @@ export default function Dashboard({ children }) {
 				<div className="flex flex-row h-[90vh] z-0">
 					<HamburgerMenu />
 					<div className="w-full h-full bg-gray-100">
-						<Routes>
-							<Route path="new-project" element={<ChallengeStatement />} />
-						</Routes>
-						{/** <Dashboard /> */}
+						<Outlet />
 					</div>
 				</div>
 			</div>
 		</>
-	)
+	);
 }
