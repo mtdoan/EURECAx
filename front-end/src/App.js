@@ -6,7 +6,8 @@ import SignUp from './components/auth/SignUp';
 import Dashboard from './components/dashboard/Dashboard';
 
 function App() {
-	global.route = 'http://localhost:3000';
+	//global.route = 'http://localhost:3000';
+	global.route = 'https://eurecax-vercel-daniela142.vercel.app';
 
 	return (
 		<Router>
