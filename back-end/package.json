@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "MONGO_URI=\"mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000\" mocha 'test/**/*.js'",
+    "test": "MONGO_URI=\"mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000\" NODE_ENV=test mocha 'test/**/*.js' --exit",
     "start": "node index.js"
   },
   "keywords": [],
