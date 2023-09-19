@@ -16,7 +16,7 @@ const router = express.Router();
 
 router.route('/').post(registerUser).get(protect, admin, getUsers);
 router.post('/auth', authUser);
-router.post('/logout', logoutUser);
+router.post('/logout', protect, logoutUser);
 
 router
     .route('/profile')
@@ -29,6 +29,4 @@ router
     .get(protect, getUserById)
     .put(protect, updateUser);
 
-
 module.exports = router;
-

@@ -19,7 +19,7 @@ const authUser = asyncHandler(async (req, res) => {
             firstname: user.firstname,
             lastname: user.lastname,
             email: user.email,
-        })
+        });
     } else {
         res.status(401);
         throw new Error('Invalid email or password');
@@ -74,7 +74,7 @@ const logoutUser = (req, res) => {
         secure: true,
     });
     res.status(200).json({ message: 'Logged out successfully' });
-}
+};
 
 // @desc Get user profile
 // @route GET /api/users/profile
@@ -127,7 +127,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 const getUsers = asyncHandler(async (req, res) => {
     const users = await User.find({});
     res.json(users);
-})
+});
 
 // @desc Delete user
 // @route DELETE /api/users/:id
@@ -169,7 +169,7 @@ const updateUser = asyncHandler(async (req, res) => {
         user.firstname = req.body.firstname || user.firstname;
         user.lastname = req.body.lastname || user.lastname;
         user.email = req.body.email || user.email;
-       
+
         if (req.body.password) {
             user.password = req.body.password;
         }
@@ -199,4 +199,4 @@ module.exports = {
     deleteUser,
     getUserById,
     updateUser,
-}
+};
