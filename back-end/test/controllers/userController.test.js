@@ -66,6 +66,7 @@ describe('User Controller', () => {
     await registerTestUser();
     const res = await loginTestUser();
     expect(res).to.have.status(200);
+    expect(res).to.have.cookie('jwt');
   });
 
   // authUser - return status 401
