@@ -10,6 +10,7 @@ const NavBar = () => {
 
   const styles = `
     .inputStyle {
+      flex: 1;
       border: none;
       border-radius: 20px;
       padding-left: 20px;
@@ -18,11 +19,12 @@ const NavBar = () => {
       color: #333;
       font-size: 16px;
       height: 32px;
-      width: 820px;
       line-height: 32px;
+      margin-right: 20px;
       margin-left: 35px;
       margin-top: 10px;
       margin-bottom: 10px;
+      min-width: 0;
     }
 
     .buttonStyle {
@@ -34,7 +36,6 @@ const NavBar = () => {
       height: 100%;
       width: 200px;
       margin-right: 15px;
-      flex: 1;
       transform: ${isButtonClicked ? "scale(0.95)" : "scale(1)"};
       transition: background-color 0.2s, transform 0.2s;
     }
@@ -83,85 +84,82 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="navbar bg-body-tertiary">
-      <div className="container-fluid">
-        <style>{styles}</style>
-        <form className="d-flex" role="search">
-          <input
-            className="inputStyle"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-        </form>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <button
-            className="buttonStyle btn btn-primary"
-            type="button"
-            onClick={handleButtonClick}
-          >
-            Execute with AI
-          </button>
-          <button
-            className="btn btn-secondary dropdown-toggle"
-            type="button"
-            style={{
-              width: "170px",
-              display: "flex",
-              alignItems: "center",
-              paddingLeft: "10px",
-              justifyContent: "space-between",
-            }}
-            onClick={handleDropdownClick}
-          >
-            <img
-              src={placeholderImageUrl}
-              alt="Profile"
-              style={{
-                marginRight: "15px",
-                width: "32px",
-                height: "32px",
-                borderRadius: "50%",
-              }}
-            />
-            <span> Profile </span>
-          </button>
-          <div className="dropdownContentStyle">
-            <button
-              type="button"
-              style={{
-                display: "block",
-                padding: "10px",
-                fontWeight: "bold",
-              }}
-              onClick={handleProfile}
-            >
-              View Profile
-            </button>
-            <button
-              type="button"
-              style={{
-                display: "block",
-                padding: "10px",
-                fontWeight: "bold",
-              }}
-              onClick={handleSettings}
-            >
-              Settings
-            </button>
-            <button
-              type="button"
-              style={{
-                display: "block",
-                padding: "10px",
-                fontWeight: "bold",
-              }}
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
-          </div>
-        </div>
+    <nav className="navbar">
+      <style>{styles}</style>
+      <form className="d-flex" role="search" style={{ flex: 1 }}>
+        <input
+          className="inputStyle"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+      </form>
+      <button
+        className="buttonStyle btn btn-primary"
+        type="button"
+        onClick={handleButtonClick}
+      >
+        Execute with AI
+      </button>
+      <button
+        className="btn btn-secondary dropdown-toggle"
+        type="button"
+        style={{
+          width: "170px",
+          display: "flex",
+          alignItems: "center",
+          paddingLeft: "10px",
+          marginRight: "10px",
+          justifyContent: "space-between",
+        }}
+        onClick={handleDropdownClick}
+      >
+        <img
+          src={placeholderImageUrl}
+          alt="Profile"
+          style={{
+            marginRight: "15px",
+            width: "32px",
+            height: "32px",
+            borderRadius: "50%",
+          }}
+        />
+        <span> Profile </span>
+      </button>
+      <div className="dropdownContentStyle">
+        <button
+          type="button"
+          style={{
+            display: "block",
+            padding: "10px",
+            fontWeight: "bold",
+          }}
+          onClick={handleProfile}
+        >
+          View Profile
+        </button>
+        <button
+          type="button"
+          style={{
+            display: "block",
+            padding: "10px",
+            fontWeight: "bold",
+          }}
+          onClick={handleSettings}
+        >
+          Settings
+        </button>
+        <button
+          type="button"
+          style={{
+            display: "block",
+            padding: "10px",
+            fontWeight: "bold",
+          }}
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
       </div>
     </nav>
   );
