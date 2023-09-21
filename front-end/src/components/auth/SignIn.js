@@ -23,6 +23,10 @@ export default function SignIn() {
         }
     };
 
+    const signUp = async (e) => {
+        navigate("/signUp", { replace: true});
+    }
+
     return (
         <>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -97,12 +101,14 @@ export default function SignIn() {
                         </div>
                     </form>
 
-                    {/* <p className="mt-10 text-center text-sm text-gray-500">
+                    <p className="mt-10 text-center text-sm text-gray-500">
                         Not a member?{' '}
-                        <a className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-                            Sign Up
+                        <a 
+                            onClick={(e) => signUp(e)}
+                            className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+                            Sign up
                         </a>
-                    </p> */}
+                    </p>
                 </div>
             </div>
         </>

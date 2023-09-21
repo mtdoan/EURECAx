@@ -15,21 +15,22 @@ const authUser = asyncHandler(async (req, res) => {
 
         res.json({
             _id: user._id,
-            name: user.name,
+            username: user.username,
+            firstname: user.firstname,
+            lastname: user.lastname,
             email: user.email,
-        })
+        });
     } else {
         res.status(401);
         throw new Error('Invalid email or password');
     }
 });
 
-
 // @desc Register a new user
 // @route POST /api/users
 // @access Public
 const registerUser = asyncHandler(async (req, res) => {
-    const { name, email, password } = req.body;
+    const { username, firstname, lastname, email, password } = req.body;
 
     const userExists = await User.findOne({ email });
 
@@ -39,7 +40,9 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
     const user = await User.create({
-        name,
+        username,
+        firstname,
+        lastname,
         email,
         password,
     });
@@ -49,7 +52,9 @@ const registerUser = asyncHandler(async (req, res) => {
     if (user) {
         res.status(201).json({
             _id: user._id,
-            name: user.name,
+            username: user.username,
+            firstname: user.firstname,
+            lastname: user.lastname,
             email: user.email,
         });
     } else {
@@ -69,7 +74,7 @@ const logoutUser = (req, res) => {
         secure: true,
     });
     res.status(200).json({ message: 'Logged out successfully' });
-}
+};
 
 // @desc Get user profile
 // @route GET /api/users/profile
@@ -80,7 +85,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
     if (user) {
         res.json({
             _id: user._id,
-            name: user.name,
+            username: user.username,
             email: user.email,
         });
     } else {
@@ -96,14 +101,18 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id);
 
     if (user) {
-        user.name = req.body.name || user.name;
+        user.username = req.body.username || user.username;
+        user.firstname = req.body.firstname || user.firstname;
+        user.lastname = req.body.lastname || user.lastname;
         user.email = req.body.email || user.email;
 
         const updatedUser = await user.save();
 
         res.json({
             _id: updatedUser._id,
-            name: updatedUser.name,
+            username: user.username,
+            firstname: user.firstname,
+            lastname: user.lastname,
             email: updatedUser.email,
         });
     } else {
@@ -118,7 +127,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 const getUsers = asyncHandler(async (req, res) => {
     const users = await User.find({});
     res.json(users);
-})
+});
 
 // @desc Delete user
 // @route DELETE /api/users/:id
@@ -156,9 +165,11 @@ const updateUser = asyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id);
 
     if (user) {
-        user.name = req.body.name || user.name;
+        user.username = req.body.username || user.username;
+        user.firstname = req.body.firstname || user.firstname;
+        user.lastname = req.body.lastname || user.lastname;
         user.email = req.body.email || user.email;
-       
+
         if (req.body.password) {
             user.password = req.body.password;
         }
@@ -167,7 +178,9 @@ const updateUser = asyncHandler(async (req, res) => {
 
         res.json({
             _id: updatedUser._id,
-            name: updatedUser.name,
+            username: updatedUser.username,
+            firstname: updatedUser.username,
+            firstname: updatedUser.lastname,
             email: updatedUser.email,
         });
     } else {
@@ -186,4 +199,4 @@ module.exports = {
     deleteUser,
     getUserById,
     updateUser,
-}
+};
