@@ -8,17 +8,23 @@ function CanvasGrid() {
   const [savedTime, setSavedTime] = useState("");
   const [isSaved, setIsSaved] = useState(false);
 
+  const gridContainerStyle = {
+    height: "calc(100vh - 60px)", // Adjust the height as needed, considering the navbar height
+    padding: "10px",
+  };
+
   const gridStyle = {
     display: "grid",
     gridTemplateRows: "repeat(2, 1fr)", // 2 rows
     gridTemplateColumns: "repeat(6, 1fr)", // 6 columns
+    height: "100%",
   };
 
   const gridItemStyle = {
+    flex: "1",
     backgroundColor: "#ccc",
     fontWeight: "bold",
     padding: "10px",
-    height: "430px",
     border: "1px solid #000",
     cursor: "pointer",
   };
@@ -35,6 +41,12 @@ function CanvasGrid() {
   const modalContentScrollStyle = {
     maxHeight: "200px", // Adjust the height as needed
     overflow: "auto",
+  };
+
+  const bodyStyle = {
+    margin: 0,
+    padding: 0,
+    overflow: "hidden", // This prevents scrolling
   };
 
   const closeModal = () => {
@@ -63,7 +75,15 @@ function CanvasGrid() {
   };
 
   return (
-    <div style={{ padding: "10px" }}>
+    <div style={gridContainerStyle}>
+      {/* Apply the bodyStyle to the body element */}
+      <style>{`
+      body {
+        margin: ${bodyStyle.margin};
+        padding: ${bodyStyle.padding};
+        overflow: ${bodyStyle.overflow};
+      }
+    `}</style>
       <div style={gridStyle}>
         {/* Row 1 */}
         <div style={gridItemStyle} onClick={() => openModal("EVENT")}>
