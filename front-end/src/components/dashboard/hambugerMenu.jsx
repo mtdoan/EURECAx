@@ -16,53 +16,42 @@ import LearnIcon from './assets/learnIcon'
 
 const HamburgerMenu = () => {
 	let navigate = useNavigate()
-    const openPage = async (e) => {
-		console.log('Works!')
-        // navigate("./");
-    };
-	
-    // const openPage = async (e) => {
-	// 	if (html elmenet = 'Dashboard'){
-	// 		navigate("./");
-	// 	}
-	// 	if (html elmenet = 'Connect'){
-	// 		navigate("./");
-	// 	}
-	// 	if (html elmenet = 'Learn'){
-	// 		navigate("./");
-	// 	}
-	// 	if (html elmenet = 'Team'){
-	// 		navigate("./");
-	// }
+
+		const openPage = async () => {
+
+			const menuItemName = document.getElementsByClassName("menu__item--name");
+			let menuItemNames = ['Dashboard', 'Connect', 'Learn', 'Documents', ] // Names of every menu item
+
+			for (let i = 0; i < menuItemNames.length; i++){
+				if ( menuItemName[0].innerHTML == menuItemNames[i]){
+						console.log('Button Works!')
+						navigate("./");
+				}
+			}
+	}
 
 
-
-
-		
 	document.addEventListener("click", function() {
 		const resizeButton = document.getElementById("resizeButton");
-
-			
 		resizeButton.addEventListener("click", function() {
+
 			const sideBarSize = document.querySelectorAll(".menu");
-			const menuItem= document.querySelectorAll(".menu__item");
-			const menuItemName = document.querySelectorAll(".menu__item--name");
-			const resizeButton = document.querySelectorAll(".resizeButton");
-
-
 			sideBarSize.forEach(function(element) {
 				element.classList.toggle("collapsed__menu");
 			});
-
-			  
+			
+			
+			const menuItem= document.querySelectorAll(".menu__item");
 			menuItem.forEach(function(element) {
-			element.classList.toggle("menu__item--after");
+				element.classList.toggle("menu__item--after");
 			});
-
+			
+			const menuItemName = document.querySelectorAll(".menu__item--name");
 			menuItemName.forEach(function(element) {
-			element.classList.toggle("menu__item--name--remove");
-			  });
-
+				element.classList.toggle("menu__item--name--remove");
+			});
+			
+			const resizeButton = document.querySelectorAll(".resizeButton");
 			resizeButton.forEach(function(element) {
 			element.classList.toggle("resizeButton--after");
 			  });
@@ -73,12 +62,7 @@ const HamburgerMenu = () => {
 
 
 
-
-	  
-
 	// Get references to the button and the target element
-
-
 
 	return (
 		<>
@@ -100,7 +84,7 @@ const HamburgerMenu = () => {
 							<div 
 							className='menu__item'
 							type="button"
-							onClick={(e) => openPage(e)}
+							onClick={() => openPage()}
 							>
 										<figure className="menu__item--svg-container">
 											<DashboardIcon className="menu__item--svg" />
@@ -112,44 +96,20 @@ const HamburgerMenu = () => {
 							<div 
 							className='menu__item'
 							type="button"
-							onClick={(e) => openPage(e)}
+							onClick={() => openPage()}
 							>
 										<figure className="menu__item--svg-container">
-											<DocumentsIcon className="menu__item--svg" />
-										</figure>
-										<p className="menu__item--name">Documents</p>
-							</div>
-					</div>
-					<div className="menu__item--container">
-							<div 
-							className='menu__item'
-							type="button"
-							onClick={(e) => openPage(e)}
-							>
-										<figure className="menu__item--svg-container">
-											<ConnectIcon className="menu__item--svg" />
+											<DashboardIcon className="menu__item--svg" />
 										</figure>
 										<p className="menu__item--name">Connect</p>
 							</div>
 					</div>
-					<div className="menu__item--container">
-							<div 
-							className='menu__item'
-							type="button"
-							onClick={(e) => openPage(e)}
-							>
-										<figure className="menu__item--svg-container">
-											<LearnIcon className="menu__item--svg" />
-										</figure>
-										<p className="menu__item--name">Learn</p>
-							</div>
-					</div>
- 
+					
 
 
+				</div>  
+				{/* ^^^^this is container Div */}
 
-
-				</div>
 			</div>
 
 		</>
