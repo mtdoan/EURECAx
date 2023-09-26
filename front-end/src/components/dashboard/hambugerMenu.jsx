@@ -17,6 +17,13 @@ import LearnIcon from './assets/learnIcon'
 const HamburgerMenu = () => {
 	let navigate = useNavigate()
 
+	const [showFullLogo, setShowFullLogo] = useState(true); // State variable to track the logo icon
+
+	const toggleLogo = () => {
+	  setShowFullLogo(!showFullLogo); // Toggle between full and short logo
+	}
+
+
 		const openPage = async () => {
 
 			const menuItemName = document.getElementsByClassName("menu__item--name");
@@ -31,61 +38,66 @@ const HamburgerMenu = () => {
 	}
 
 
-	//For Loop Version - testing
+	// For Loop Version - testing
 
-	// document.addEventListener("click", function () {
-	// 	const resizeButton = document.getElementById("resizeButton");
-	// 	resizeButton.addEventListener("click", function () {
-	// 	  const sideBarSize = document.querySelectorAll(".menu");
-	// 	  const menuItem = document.querySelectorAll(".menu__item");
-	// 	  const menuItemName = document.querySelectorAll(".menu__item--name");
-	// 	  const resizeButton = document.querySelectorAll(".resizeButton");
-	  
-	// 	  const toggleClasses = function (elements, className) {
-	// 		for (let i = 0; i < elements.length; i++) {
-	// 		  elements[i].classList.toggle(className);
-	// 		}
-	// 	  };
-	  
-	// 	  toggleClasses(sideBarSize, "collapsed__menu");
-	// 	  toggleClasses(menuItem, "menu__item--after");
-	// 	  toggleClasses(menuItemName, "menu__item--name--remove");
-	// 	  toggleClasses(resizeButton, "resizeButton--after");
-	// 	});
-	//   });
-	  
-
-	document.addEventListener("click", function() {
+	document.addEventListener("click", function () {
 		const resizeButton = document.getElementById("resizeButton");
-		resizeButton.addEventListener("click", function() {
+		resizeButton.addEventListener("click", function () {
 
-			const sideBarSize = document.querySelectorAll(".menu");
-			sideBarSize.forEach(function(element) {
-				element.classList.toggle("collapsed__menu");
-			});
-			
-			const menuItem= document.querySelectorAll(".menu__item");
-			menuItem.forEach(function(element) {
-				element.classList.toggle("menu__item--after");
-			});
-			
-			const menuItemName = document.querySelectorAll(".menu__item--name");
-			menuItemName.forEach(function(element) {
-				element.classList.toggle("menu__item--name--remove");
-			});
-			
-			const resizeButton = document.querySelectorAll(".resizeButton");
-			resizeButton.forEach(function(element) {
-			element.classList.toggle("resizeButton--after");
-			  });
 
+
+		  const sideBarSize = document.querySelectorAll(".menu");
+		  const menuItem = document.querySelectorAll(".menu__item");
+		  const menuItemName = document.querySelectorAll(".menu__item--name");
+		  const resizeButton = document.querySelectorAll(".resizeButton");
+	  
+		  const toggleClasses = function (elements, className) {
+			for (let i = 0; i < elements.length; i++) {
+			  elements[i].classList.toggle(className);
+			}
+		  };
+	  
+		  toggleClasses(sideBarSize, "collapsed__menu");
+		  toggleClasses(menuItem, "menu__item--after");
+		  toggleClasses(menuItemName, "menu__item--name--remove");
+		  toggleClasses(resizeButton, "resizeButton--after");
 		});
+	  });
+	  
+
+	// document.addEventListener("click", function() {
+	// 	const resizeButton = document.getElementById("resizeButton");
+	// 	resizeButton.addEventListener("click", function() {
+
+	// 		const sideBarSize = document.querySelectorAll(".menu");
+	// 		sideBarSize.forEach(function(element) {
+	// 			element.classList.toggle("collapsed__menu");
+	// 		});
 			
-		});
+	// 		const menuItem= document.querySelectorAll(".menu__item");
+	// 		menuItem.forEach(function(element) {
+	// 			element.classList.toggle("menu__item--after");
+	// 		});
+			
+	// 		const menuItemName = document.querySelectorAll(".menu__item--name");
+	// 		menuItemName.forEach(function(element) {
+	// 			element.classList.toggle("menu__item--name--remove");
+	// 		});
+			
+	// 		const resizeButton = document.querySelectorAll(".resizeButton");
+	// 		resizeButton.forEach(function(element) {
+	// 		element.classList.toggle("resizeButton--after");
+	// 		  });
 
 
 
-	// Get references to the button and the target element
+	// 	});
+			
+	// });
+
+
+		
+		
 
 	return (
 		<>
@@ -93,11 +105,15 @@ const HamburgerMenu = () => {
 
 					<div className="logo__container">
 						<figure className="logo__container--holder">
-							<Choas1IconFull id="logo" className="full__logo" />
+							{showFullLogo ? <Choas1IconFull id="logo" className="full__logo" /> : <Choas1Icon />}
 						</figure>
-						<button id="resizeButton" className="resizeButton--container" > 
-							<ResizeMenuButton className="resizeButton" />
-						</button>
+
+						<div className="resizeButton--container">
+
+							<button id="resizeButton" onClick={toggleLogo}> 
+								<ResizeMenuButton className="resizeButton" />
+							</button>
+						</div>
 					</div>
 
 
