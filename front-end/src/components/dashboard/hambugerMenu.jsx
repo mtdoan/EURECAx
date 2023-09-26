@@ -20,7 +20,7 @@ const HamburgerMenu = () => {
 		const openPage = async () => {
 
 			const menuItemName = document.getElementsByClassName("menu__item--name");
-			let menuItemNames = ['Dashboard', 'Connect', 'Learn', 'Documents', ] // Names of every menu item
+			let menuItemNames = ['Dashboard', 'Connect', 'Learn', 'Documents' ] // Names of every menu item
 
 			for (let i = 0; i < menuItemNames.length; i++){
 				if ( menuItemName[0].innerHTML == menuItemNames[i]){
@@ -31,6 +31,30 @@ const HamburgerMenu = () => {
 	}
 
 
+	//For Loop Version - testing
+
+	// document.addEventListener("click", function () {
+	// 	const resizeButton = document.getElementById("resizeButton");
+	// 	resizeButton.addEventListener("click", function () {
+	// 	  const sideBarSize = document.querySelectorAll(".menu");
+	// 	  const menuItem = document.querySelectorAll(".menu__item");
+	// 	  const menuItemName = document.querySelectorAll(".menu__item--name");
+	// 	  const resizeButton = document.querySelectorAll(".resizeButton");
+	  
+	// 	  const toggleClasses = function (elements, className) {
+	// 		for (let i = 0; i < elements.length; i++) {
+	// 		  elements[i].classList.toggle(className);
+	// 		}
+	// 	  };
+	  
+	// 	  toggleClasses(sideBarSize, "collapsed__menu");
+	// 	  toggleClasses(menuItem, "menu__item--after");
+	// 	  toggleClasses(menuItemName, "menu__item--name--remove");
+	// 	  toggleClasses(resizeButton, "resizeButton--after");
+	// 	});
+	//   });
+	  
+
 	document.addEventListener("click", function() {
 		const resizeButton = document.getElementById("resizeButton");
 		resizeButton.addEventListener("click", function() {
@@ -39,7 +63,6 @@ const HamburgerMenu = () => {
 			sideBarSize.forEach(function(element) {
 				element.classList.toggle("collapsed__menu");
 			});
-			
 			
 			const menuItem= document.querySelectorAll(".menu__item");
 			menuItem.forEach(function(element) {
