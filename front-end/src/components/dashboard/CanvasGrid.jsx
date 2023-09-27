@@ -10,7 +10,8 @@ function CanvasGrid() {
 
   const gridContainerStyle = {
     height: "calc(100vh - 60px)", // Adjust the height as needed, considering the navbar height
-    padding: "10px",
+    width: "calc(100vw - 212px)",
+    padding: "0px",
   };
 
   const gridStyle = {
@@ -22,6 +23,7 @@ function CanvasGrid() {
 
   const gridItemStyle = {
     flex: "1",
+    width: "100%",
     backgroundColor: "#ccc",
     fontWeight: "bold",
     padding: "10px",

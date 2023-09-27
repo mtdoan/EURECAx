@@ -44,9 +44,7 @@ export default function Dashboard() {
             </div>
             <div className="flex flex-row h-[90vh] z-0">
                 <Outlet />
-              {/**
-                This is just gonna be hidden for the demo
-              <div>
+              {/* <div>
                 <button
                   type="signout"
                   onClick={() => logout()}
@@ -54,8 +52,8 @@ export default function Dashboard() {
                 >
                   Sign out
                 </button>
-              </div>
-              */}
+              </div> */}
+             
             </div>
           </div>
         </div>

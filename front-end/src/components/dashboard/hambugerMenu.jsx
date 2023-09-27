@@ -12,14 +12,21 @@ import ResizeMenuButton from "./assets/resizeMenuButton";
 import DocumentsIcon from "./assets/documentsIcon";
 import LearnIcon from "./assets/learnIcon";
 
+import DashboardBigIcon from "./assets/dashboardIconBig";
+import ConnectBigIcon from "./assets/connectIconBig";
+import DocumentsBigIcon from "./assets/documentsIconBig";
+
 const HamburgerMenu = () => {
   let navigate = useNavigate();
 
-  const [showFullLogo, setShowFullLogo] = useState(true); // State variable to track the logo icon
+  const [expanded, setExpanded] = useState(true);
 
-  const toggleLogo = () => {
-    setShowFullLogo(!showFullLogo); // Toggle between full and short logo
-  };
+  const toggleSidebar = () => {
+    setExpanded(!expanded);
+    
+    let menuItemNames = ["Dashboard", "Connect", "Learn", "Documents"]; // Names of every menu item
+    const menuItemName = document.getElementsByClassName("menu__item--name");
+  }
 
   const openPage = async () => {
     const menuItemName = document.getElementsByClassName("menu__item--name");
@@ -35,26 +42,26 @@ const HamburgerMenu = () => {
 
   // For Loop Version - testing
 
-  document.addEventListener("click", function() {
-    const resizeButton = document.getElementById("resizeButton");
-    resizeButton.addEventListener("click", function() {
-      const sideBarSize = document.querySelectorAll(".menu");
-      const menuItem = document.querySelectorAll(".menu__item");
-      const menuItemName = document.querySelectorAll(".menu__item--name");
-      const resizeButton = document.querySelectorAll(".resizeButton");
+  // document.addEventListener("click", function() {
+  //   const resizeButton = document.getElementById("resizeButton");
+  //   resizeButton.addEventListener("click", function() {
+  //     const sideBarSize = document.querySelectorAll(".menu");
+  //     const menuItem = document.querySelectorAll(".menu__item");
+  //     const menuItemName = document.querySelectorAll(".menu__item--name");
+  //     const resizeButton = document.querySelectorAll(".resizeButton");
 
-      const toggleClasses = function(elements, className) {
-        for (let i = 0; i < elements.length; i++) {
-          elements[i].classList.toggle(className);
-        }
-      };
+  //     const toggleClasses = function(elements, className) {
+  //       for (let i = 0; i < elements.length; i++) {
+  //         elements[i].classList.toggle(className);
+  //       }
+  //     };
 
-      toggleClasses(sideBarSize, "collapsed__menu");
-      toggleClasses(menuItem, "menu__item--after");
-      toggleClasses(menuItemName, "menu__item--name--remove");
-      toggleClasses(resizeButton, "resizeButton--after");
-    });
-  });
+  //     toggleClasses(sideBarSize, "collapsed__menu");
+  //     toggleClasses(menuItem, "menu__item--after");
+  //     toggleClasses(menuItemName, "menu__item--name--remove");
+  //     toggleClasses(resizeButton, "resizeButton--after");
+  //   });
+  // });
 
   // document.addEventListener("click", function() {
   // 	const resizeButton = document.getElementById("resizeButton");
@@ -86,60 +93,73 @@ const HamburgerMenu = () => {
 
   return (
     <>
-      <div id="menu" className="menu">
-        <div className="logo__container">
+      <div id="menu" className={`menu ${expanded ? 'active' : 'collapsed'}`}>
+        <div className={`logo__container ${expanded ? 'opened' : 'closed'}`}>
           <figure className="logo__container--holder">
-            {showFullLogo ? (
-              <Choas1IconFull id="logo" className="full__logo" />
+            {expanded ? (
+              <Choas1IconFull id="logo"/>
             ) : (
               <Choas1Icon />
             )}
           </figure>
 
-          <div className="resizeButton--container">
-            <button id="resizeButton" onClick={toggleLogo}>
-              <ResizeMenuButton className="resizeButton" />
-            </button>
-          </div>
+          <button className={`resizeButton ${expanded ? 'opened' : 'closed'}`} onClick={toggleSidebar}>
+            <ResizeMenuButton className="resizeButton" />
+          </button>
         </div>
 
         <div className="container">
-          <div className="menu__item--container">
+          <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
             <div
-              className="menu__item"
+              className={`menu__item ${expanded ? 'opened' : 'closed'}`}
               type="button"
               onClick={() => openPage()}
             >
               <figure className="menu__item--svg-container">
-                <DashboardIcon className="menu__item--svg" />
-              </figure>
-              <p className="menu__item--name">Dashboard</p>
-            </div>
-          </div>
-          <div className="menu__item--container">
-            <div
-              className="menu__item"
-              type="button"
-              onClick={() => openPage()}
-            >
-              <figure className="menu__item--svg-container">
-                <DashboardIcon className="menu__item--svg" />
-              </figure>
-              <p className="menu__item--name">Connect</p>
-            </div>
-          </div>
-          <div className="menu__item--container">
-            <Link to="/dashboard/new-project">
-              <div className="menu__item" type="button">
-                <figure className="menu__item--svg-container">
+                {expanded ? (
                   <DashboardIcon className="menu__item--svg" />
+                ) : (
+                  <DashboardBigIcon />
+                )}
+              </figure>
+              <p className={`menu__item--name ${expanded ? 'opened' : 'closed'}`}>
+                Dashboard
+              </p>
+            </div>
+          </div>
+          <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
+            <div
+              className={`menu__item ${expanded ? 'opened' : 'closed'}`}
+              type="button"
+              onClick={() => openPage()}
+            >
+              <figure className="menu__item--svg-container">
+                {expanded ? (
+                  <ConnectIcon className="menu__item--svg" />
+                ) : (
+                  <ConnectBigIcon />
+                )}
+              </figure>
+              <p className={`menu__item--name ${expanded ? 'opened' : 'closed'}`}>Connect</p>
+            </div>
+          </div>
+          <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
+            <Link to="/dashboard/new-project">
+              <div 
+                className={`menu__item ${expanded ? 'opened' : 'closed'}`} 
+                type="button">
+                <figure className="menu__item--svg-container">
+                  {expanded ? (
+                    <DocumentsIcon className="menu__item--svg" />
+                  ) : (
+                    <DocumentsBigIcon />
+                  )}
                 </figure>
-                <p className="menu__item--name">New Project</p>
+                <p className={`menu__item--name ${expanded ? 'opened' : 'closed'}`}>New Project</p>
               </div>
             </Link>
           </div>
         </div>
-        {/* ^^^^this is container Div */}
       </div>
     </>
   );
