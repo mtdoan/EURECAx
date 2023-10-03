@@ -10,13 +10,10 @@ import Choas1Icon from "./assets/choas1Icon";
 import Choas1IconFull from "./assets/choas1__logo--full";
 import ConnectIcon from "./assets/connectIcon";
 import DashboardIcon from "./assets/dashboardIcon";
-import ResizeMenuButton from "./assets/resizeMenuButton";
 import DocumentsIcon from "./assets/documentsIcon";
 import LearnIcon from "./assets/learnIcon";
 
-import DashboardBigIcon from "./assets/dashboardIconBig";
-import ConnectBigIcon from "./assets/connectIconBig";
-import DocumentsBigIcon from "./assets/documentsIconBig";
+import ResizeButton from "./assets/resizeButton";
 
 const HamburgerMenu = () => {
   let navigate = useNavigate();
@@ -42,57 +39,6 @@ const HamburgerMenu = () => {
     }
   };
 
-  // For Loop Version - testing
-
-  // document.addEventListener("click", function() {
-  //   const resizeButton = document.getElementById("resizeButton");
-  //   resizeButton.addEventListener("click", function() {
-  //     const sideBarSize = document.querySelectorAll(".menu");
-  //     const menuItem = document.querySelectorAll(".menu__item");
-  //     const menuItemName = document.querySelectorAll(".menu__item--name");
-  //     const resizeButton = document.querySelectorAll(".resizeButton");
-
-  //     const toggleClasses = function(elements, className) {
-  //       for (let i = 0; i < elements.length; i++) {
-  //         elements[i].classList.toggle(className);
-  //       }
-  //     };
-
-  //     toggleClasses(sideBarSize, "collapsed__menu");
-  //     toggleClasses(menuItem, "menu__item--after");
-  //     toggleClasses(menuItemName, "menu__item--name--remove");
-  //     toggleClasses(resizeButton, "resizeButton--after");
-  //   });
-  // });
-
-  // document.addEventListener("click", function() {
-  // 	const resizeButton = document.getElementById("resizeButton");
-  // 	resizeButton.addEventListener("click", function() {
-
-  // 		const sideBarSize = document.querySelectorAll(".menu");
-  // 		sideBarSize.forEach(function(element) {
-  // 			element.classList.toggle("collapsed__menu");
-  // 		});
-
-  // 		const menuItem= document.querySelectorAll(".menu__item");
-  // 		menuItem.forEach(function(element) {
-  // 			element.classList.toggle("menu__item--after");
-  // 		});
-
-  // 		const menuItemName = document.querySelectorAll(".menu__item--name");
-  // 		menuItemName.forEach(function(element) {
-  // 			element.classList.toggle("menu__item--name--remove");
-  // 		});
-
-  // 		const resizeButton = document.querySelectorAll(".resizeButton");
-  // 		resizeButton.forEach(function(element) {
-  // 		element.classList.toggle("resizeButton--after");
-  // 		  });
-
-  // 	});
-
-  // });
-
   return (
     <>
       <div id="menu" className={`menu ${expanded ? 'active' : 'collapsed'}`}>
@@ -106,8 +52,9 @@ const HamburgerMenu = () => {
           </figure>
 
           <button className={`resizeButton ${expanded ? 'opened' : 'closed'}`} onClick={toggleSidebar}>
-            <ResizeMenuButton className="resizeButton" />
-          </button>
+                <ResizeButton>
+                </ResizeButton>
+              </button>
         </div>
 
         <div className="container">
@@ -118,11 +65,7 @@ const HamburgerMenu = () => {
               onClick={() => openPage()}
             >
               <figure className="menu__item--svg-container">
-                {expanded ? (
-                  <DashboardIcon className="menu__item--svg" />
-                ) : (
-                  <DashboardBigIcon />
-                )}
+                <DashboardIcon className="menu__item--svg" />
               </figure>
               <p className={`menu__item--name ${expanded ? 'opened' : 'closed'}`}>
                 Dashboard
@@ -136,11 +79,7 @@ const HamburgerMenu = () => {
               onClick={() => openPage()}
             >
               <figure className="menu__item--svg-container">
-                {expanded ? (
-                  <ConnectIcon className="menu__item--svg" />
-                ) : (
-                  <ConnectBigIcon />
-                )}
+                <ConnectIcon className="menu__item--svg" />
               </figure>
               <p className={`menu__item--name ${expanded ? 'opened' : 'closed'}`}>Connect</p>
             </div>
@@ -151,11 +90,7 @@ const HamburgerMenu = () => {
                 className={`menu__item ${expanded ? 'opened' : 'closed'}`} 
                 type="button">
                 <figure className="menu__item--svg-container">
-                  {expanded ? (
-                    <DocumentsIcon className="menu__item--svg" />
-                  ) : (
-                    <DocumentsBigIcon />
-                  )}
+                  <DocumentsIcon className="menu__item--svg" />
                 </figure>
                 <p className={`menu__item--name ${expanded ? 'opened' : 'closed'}`}>New Project</p>
               </div>

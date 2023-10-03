@@ -43,7 +43,7 @@ export default function Dashboard() {
               <NavBar />
             </div>
             <div className="flex flex-row h-[90vh] z-0">
-                <Outlet />
+                <Outlet/>
               {/* <div>
                 <button
                   type="signout"

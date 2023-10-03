@@ -42,10 +42,12 @@
 
 .menu.active {
     width: 212px;
+    z-index: 1;
 }
 
 .menu.collapsed {
     width: 81px;
+    z-index: 1;
 }
 
 .menu__item--container.opened {
@@ -75,8 +77,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 28px;
-    margin-bottom: 4px;
+    /* height: 28px; */
+    /* margin-bottom: 4px; */
 }
 
 .menu__item:hover {
@@ -118,14 +120,4 @@
 
 .menu__item--name.closed {
     display: none;
-}
-
-.resizeButton.opened {
-    z-index: 1;
-    /* transform: rotate(180deg); */
-}
-
-.resizeButton.closed {
-    z-index: 1;
-    /* transform: rotate(0deg); */
 }
