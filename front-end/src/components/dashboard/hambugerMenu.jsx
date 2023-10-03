@@ -1,7 +1,7 @@
 import './hamburgerMenu.css'
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'
-// import { useNavigate } from 'react-router-dom'
+
 
 //Assets 
 import Choas1Icon from './assets/choas1Icon'
@@ -45,7 +45,7 @@ const HamburgerMenu = () => {
 
 					<div className="containers">
 						<div className="logo__container">
-							{showFullLogo ? <Choas1IconFull id="logo" className="full__logo" /> : <Choas1Icon />}
+							{showFullLogo ? <Choas1IconFull id="logo" /> : <Choas1Icon />}
 						</div>
 
 			
