@@ -1,7 +1,9 @@
-import "./hamburgerMenu.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+
+// style
+import "./style/hamburgerMenu.css";
 
 //Assets
 import Choas1Icon from "./assets/choas1Icon";

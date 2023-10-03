@@ -1,57 +1,19 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+// style
+import "./style/navbar.css"
+
+// icons
+import SearchIcon from "./icons/searchIcon"
+
 const NavBar = () => {
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
+  
   const placeholderImageUrl =
     "https://img.freepik.com/premium-vector/account-icon-user-icon-vector-graphics_292645-552.jpg";
-
-  const styles = `
-    .inputStyle {
-      flex: 1;
-      border: none;
-      border-radius: 20px;
-      padding-left: 20px;
-      padding-right: 40px;
-      background-color: #f0f0f0;
-      color: #333;
-      font-size: 16px;
-      height: 32px;
-      line-height: 32px;
-      margin-right: 20px;
-      margin-left: 35px;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      min-width: 0;
-    }
-
-    .buttonStyle {
-      background-color: ${isButtonClicked ? "#0056b3" : "#006CFD"};
-      color: white;
-      border: none;
-      border-radius: 0;
-      padding: 10px 20px;
-      height: 100%;
-      width: 200px;
-      margin-right: 15px;
-      transform: ${isButtonClicked ? "scale(0.95)" : "scale(1)"};
-      transition: background-color 0.2s, transform 0.2s;
-    }
-
-    .dropdownContentStyle {
-      display: ${isDropdownOpen ? "block" : "none"};
-      position: absolute;
-      background-color: #fff;
-      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-      z-index: 1;
-      right: 0;
-      top: 100%;
-      min-width: 150px;
-      flex-direction: column;
-    }
-  `;
 
   const handleButtonClick = () => {
     console.log("Clicked");
@@ -85,14 +47,16 @@ const NavBar = () => {
 
   return (
     <nav className="navbar">
-      <style>{styles}</style>
-      <form className="d-flex" role="search" style={{ flex: 1 }}>
+      <form className="" role="search" style={{ flex: 1, position: "relative" }}>
+        <div class="icon">
+          <SearchIcon />
+        </div>
         <input
           className="inputStyle"
           type="search"
           placeholder="Search"
-          aria-label="Search"
-        />
+          aria-label="Search">
+        </input>
       </form>
       <button
         className="buttonStyle btn btn-primary"
