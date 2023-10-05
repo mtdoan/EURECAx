@@ -22,22 +22,21 @@ const HamburgerMenu = () => {
 
   const toggleSidebar = () => {
     setExpanded(!expanded);
-    
-    let menuItemNames = ["Dashboard", "Connect", "Learn", "Documents"]; // Names of every menu item
-    const menuItemName = document.getElementsByClassName("menu__item--name");
+
+
+
+
+    const resizeButton = document.getElementById("resizeButton");
+
+    // Toggle the 'rotated' class to trigger the rotation animation
+    resizeButton.classList.toggle("rotated");
+  
+
+
+
+
   }
 
-  const openPage = async () => {
-    const menuItemName = document.getElementsByClassName("menu__item--name");
-    let menuItemNames = ["Dashboard", "Connect", "Learn", "Documents"]; // Names of every menu item
-
-    for (let i = 0; i < menuItemNames.length; i++) {
-      if (menuItemName[0].innerHTML == menuItemNames[i]) {
-        console.log("Button Works!");
-        navigate("./");
-      }
-    }
-  };
 
   return (
     <>
@@ -51,51 +50,73 @@ const HamburgerMenu = () => {
             )}
           </figure>
 
-          <button className={`resizeButton ${expanded ? 'opened' : 'closed'}`} onClick={toggleSidebar}>
-                <ResizeButton>
-                </ResizeButton>
-              </button>
+          <button
+            
+            className={`resizeButton ${expanded ? 'opened' : 'closed'} rotateButton`}
+            onClick={toggleSidebar}
+            >
+              <ResizeButton id="resizeButton" className="rotateButton" ></ResizeButton>
+          </button>
+
         </div>
 
         <div className="container">
-          <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
-            <div
-              className={`menu__item ${expanded ? 'opened' : 'closed'}`}
-              type="button"
-              onClick={() => openPage()}
-            >
-              <figure className="menu__item--svg-container">
-                <DashboardIcon className="menu__item--svg" />
-              </figure>
-              <p className={`menu__item--name ${expanded ? 'opened' : 'closed'}`}>
-                Dashboard
-              </p>
-            </div>
-          </div>
-          <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
-            <div
-              className={`menu__item ${expanded ? 'opened' : 'closed'}`}
-              type="button"
-              onClick={() => openPage()}
-            >
-              <figure className="menu__item--svg-container">
-                <ConnectIcon className="menu__item--svg" />
-              </figure>
-              <p className={`menu__item--name ${expanded ? 'opened' : 'closed'}`}>Connect</p>
-            </div>
-          </div>
-          <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
-            <Link to="/dashboard/new-project">
+          
+        <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
+            <Link to="">
               <div 
                 className={`menu__item ${expanded ? 'opened' : 'closed'}`} 
                 type="button">
-                <figure className="menu__item--svg-container">
-                  <DocumentsIcon className="menu__item--svg" />
-                </figure>
-                <p className={`menu__item--name ${expanded ? 'opened' : 'closed'}`}>New Project</p>
+                <div className="menu__item--svg-container">
+                  <DashboardIcon className="menu__item--svg" />
+                </div>
+                <p className={`menu__item--name ${expanded ? 'opened' : 'closed'}`}>Dashboard</p>
               </div>
             </Link>
           </div>
+
+        <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
+            <Link to="">
+              <div 
+                className={`menu__item ${expanded ? 'opened' : 'closed'}`} 
+                type="button">
+                <div className="menu__item--svg-container">
+                  <DocumentsIcon className="menu__item--svg" />
+                </div>
+                <p className={`menu__item--name ${expanded ? 'opened' : 'closed'}`}>Documents</p>
+              </div>
+            </Link>
+          </div>
+
+        <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
+            <Link to="">
+              <div 
+                className={`menu__item ${expanded ? 'opened' : 'closed'}`} 
+                type="button">
+                <div className="menu__item--svg-container">
+                  <ConnectIcon className="menu__item--svg" />
+                </div>
+                <p className={`menu__item--name ${expanded ? 'opened' : 'closed'}`}>Connect</p>
+              </div>
+            </Link>
+          </div>
+
+        <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
+            <Link to="">
+              <div 
+                className={`menu__item ${expanded ? 'opened' : 'closed'}`} 
+                type="button">
+                <div className="menu__item--svg-container">
+                  <LearnIcon className="menu__item--svg" />
+                </div>
+                <p className={`menu__item--name ${expanded ? 'opened' : 'closed'}`}>Learn</p>
+              </div>
+            </Link>
+          </div>
+
+
+
+
         </div>
       </div>
     </>
