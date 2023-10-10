@@ -92,25 +92,28 @@
 
 }
 
+/* ------------- */
+
 .menu__item:hover {
     cursor: pointer;
     background-color: rgba(28, 28, 28, 0.1);
-    border-radius: 8px;
+    /* border-radius: 8px; */
 }
 
 
 .menu__item.closed:hover {
     cursor: pointer;
-    background-color: rgba(28, 28, 28, 0.1);
-    border-radius: 8px;
+    background-color: rgba(28, 28, 28, 0.1); 
+}
 
+button{
+    border-radius: 8px;
 }
 
 
 
-.menu__item--svg-container {
-padding: 10px;
-
+.menu__item--svg-container{
+    padding: 10px;
 }
 
 .menu__item--svg {
@@ -127,14 +130,13 @@ padding: 10px;
 }
 
 
-/* CSS */
 .rotateButton {
+    transform: rotate(90deg); 
     transition: transform 300ms ease;
-    transform: rotate(-180deg); 
-  }
-  
-  .rotateButton.rotated {
-    transform: rotate(0deg); 
+}
+
+.rotateButton.rotated {
+      transform: rotate(-90deg); 
   }
   
   
