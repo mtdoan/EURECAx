@@ -39,7 +39,7 @@ export default function Dashboard() {
         <div className="flex flex-row w-full">
           <HamburgerMenu />
           <div className="w-full border-l-2 ">
-            <div className="[&_nav]:flex [&_nav]:flex-row h-[10vh] flex flex-row items-center w-full justify-center border-b-2">
+            <div className="[&_nav]:flex flex flex-row items-center w-full justify-center border-b-2">
               <NavBar />
             </div>
             <div className="flex flex-row h-[90vh] z-0">

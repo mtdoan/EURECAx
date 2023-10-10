@@ -1,132 +1,110 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 // style
-import "./style/navbar.css"
+import "./style/navbar.css";
+import "./style/profiledropdown.css";
 
-// icons
+// assets
 import SearchIcon from "./icons/searchIcon"
+import CommandIcon from "./icons/commandIcon"
+import ExecuteIcon from "./icons/executeIcon"
+
+import LogOut from "./icons/logOut"
 
 const NavBar = () => {
-  const [isButtonClicked, setIsButtonClicked] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const navigate = useNavigate();
-  
-  const placeholderImageUrl =
-    "https://img.freepik.com/premium-vector/account-icon-user-icon-vector-graphics_292645-552.jpg";
+    let navigate = useNavigate();
 
-  const handleButtonClick = () => {
-    console.log("Clicked");
-    setIsButtonClicked(true);
+    const user = JSON.parse(localStorage.getItem("User"));
 
-    setTimeout(() => {
-      setIsButtonClicked(false);
-    }, 100);
-  };
+    const [dropdownStatus, setDropdownStatus] = useState(false);
+    let menuref = useRef();
 
-  const handleDropdownClick = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
+    useEffect(() => {
+        let handler = (e) => {
+            if (!menuref.current.contains(e.target)) {
+                setDropdownStatus(false);
+            }
+        }
 
-  const handleProfile = () => {
-    console.log("Profile beep");
-  };
+        document.addEventListener("mousedown", handler);
 
-  const handleSettings = () => {
-    console.log("Settings boop");
-  };
+        return () => {
+            document.removeEventListener("mousedown", handler);
+        }
+    })
 
-  const handleLogout = () => {
-    try {
-      localStorage.removeItem("User");
-      navigate("/signIn");
-    } catch (err) {
-      console.log(err);
+    function LogoutButton() {
+        return (
+            <li className='dropdownItem' onClick={() => logout()}>
+                <div className='child'>
+                    <LogOut />
+                </div>
+                <a className='child'> Log out</a>
+            </li>
+        )
     }
-  };
 
-  return (
-    <nav className="navbar">
-      <form className="" role="search" style={{ flex: 1, position: "relative" }}>
-        <div class="icon">
-          <SearchIcon />
-        </div>
-        <input
-          className="inputStyle"
-          type="search"
-          placeholder="Search"
-          aria-label="Search">
-        </input>
-      </form>
-      <button
-        className="buttonStyle btn btn-primary"
-        type="button"
-        onClick={handleButtonClick}
-      >
-        Execute with AI
-      </button>
-      <button
-        className="btn btn-secondary dropdown-toggle"
-        type="button"
-        style={{
-          width: "170px",
-          display: "flex",
-          alignItems: "center",
-          paddingLeft: "10px",
-          marginRight: "10px",
-          justifyContent: "space-between",
-        }}
-        onClick={handleDropdownClick}
-      >
-        <img
-          src={placeholderImageUrl}
-          alt="Profile"
-          style={{
-            marginRight: "15px",
-            width: "32px",
-            height: "32px",
-            borderRadius: "50%",
-          }}
-        />
-        <span> Profile </span>
-      </button>
-      <div className="dropdownContentStyle">
-        <button
-          type="button"
-          style={{
-            display: "block",
-            padding: "10px",
-            fontWeight: "bold",
-          }}
-          onClick={handleProfile}
-        >
-          View Profile
-        </button>
-        <button
-          type="button"
-          style={{
-            display: "block",
-            padding: "10px",
-            fontWeight: "bold",
-          }}
-          onClick={handleSettings}
-        >
-          Settings
-        </button>
-        <button
-          type="button"
-          style={{
-            display: "block",
-            padding: "10px",
-            fontWeight: "bold",
-          }}
-          onClick={handleLogout}
-        >
-          Logout
-        </button>
-      </div>
-    </nav>
-  );
+    const logout = async () => {
+
+        try {
+            const response = await fetch(global.route + `/api/users/logout`, {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+            });
+            localStorage.removeItem("User");
+            navigate("/signIn");
+        } catch (err) {
+            //console.log(err);
+        }
+    };
+
+    return (
+        <>
+            <div className="navbar-container">
+                <form className="searchbar">
+                    <div class="icon">
+                        <SearchIcon />
+                    </div>
+                    <input className="search-input" placeholder="Search">
+
+                    </input>
+                    <button style={{ "marginLeft": "8px" }}>
+                        <CommandIcon />
+                    </button>
+                </form>
+
+                <div className="execute-container">
+                    <button className="execute-button">
+                        <div className="execute-inner">
+                            <div className="execute-icon">
+                                <ExecuteIcon />
+                            </div>
+                            <div className="execute-text">
+                                Execute with AI
+                            </div>
+                        </div>
+                    </button>
+                </div>
+
+                <div className="profile-menu" ref={menuref} onClick={() => { setDropdownStatus(!dropdownStatus) }}>
+                    <div className="profile-in">
+                        DA
+                    </div>
+
+                    <h4 className="profile-name"> Daniel </h4>
+
+                    <div className={`dropdown-menu ${dropdownStatus ? 'active' : 'inactive'}`}>
+                        <LogoutButton />
+                    </div>
+                </div>
+            </div>
+        </>
+    );
 };
 
 export default NavBar;

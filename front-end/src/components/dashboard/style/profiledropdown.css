@@ -1,0 +1,114 @@
+.menu-container {
+    background-color: black;
+    height: 100%;
+    width: 50px;
+}
+
+.profile-menu div {
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.profile-menu:hover {
+    cursor: pointer;
+}
+
+.profile-menu {
+    width: 212px;
+    height: 100px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    margin: auto;
+    height: 80%;
+}
+
+.profile-in {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    margin-left: auto;
+    margin-right: 0;
+    font-size: 16px;
+    font-weight: 300;
+    text-transform: uppercase;
+    color: white;
+    background-color: #000000;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-name {
+    margin-right: 64px;
+    margin-left: 8px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 60px; 
+    right: 10px; 
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px 20px;
+    width: 200px;
+}
+
+.dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    right: 20px;
+    height: 20px;
+    width: 20px;
+    background: white;
+    transform: rotate(45deg);
+}
+
+.dropdown-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transforM: translateY(0);
+    transition: 100ms ease;
+}
+
+.dropdown-menu.inactive {
+    opacity: 0;
+    visibility: hidden;
+    transforM: translateY(-20px);
+    transition: 100ms ease;
+}
+
+.dropdown-menu ul li {
+    padding: 10px 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.dropdownItem {
+    display: flex;
+    margin: 10px auto;
+}
+
+.dropdownItem div {
+    max-width: 20px;
+    margin-right: 10px;
+    opacity: 0.75;
+    transition: 100ms;
+}
+
+.dropdownItem a {
+    opacity: 0.75;
+    transition: 100ms;
+    color: #ff0000;
+}
+
+.dropdownItem:hover .child {
+    opacity: 1;
+    cursor: pointer;
+    color: #ff0000;
+}
