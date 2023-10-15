@@ -6,6 +6,8 @@
 }
 
 .searchbar {
+    min-width: 0;
+    /* max-width: 725px; */
     width: 725px;
     height: 34px;
     margin-left: 38px;

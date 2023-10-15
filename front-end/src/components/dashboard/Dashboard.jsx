@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Header from "components/Header";
+
 import HamburgerMenu from "./hambugerMenu";
 import NavBar from "./NavBar";
+import Canvas from "./canvas/Canvas";
 
 export default function Dashboard() {
   let navigate = useNavigate();
@@ -16,23 +18,6 @@ export default function Dashboard() {
     }
   }, []);
 
-  const logout = async () => {
-    try {
-      const response = await fetch(global.route + `/api/users/logout`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      });
-      localStorage.removeItem("User");
-      navigate("/signIn");
-    } catch (err) {
-      //console.log(err);
-    }
-  };
-
   return (
     <>
       <div className="App">
@@ -43,17 +28,8 @@ export default function Dashboard() {
               <NavBar />
             </div>
             <div className="flex flex-row h-[90vh] z-0">
-                <Outlet/>
-              {/* <div>
-                <button
-                  type="signout"
-                  onClick={() => logout()}
-                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  Sign out
-                </button>
-              </div> */}
-             
+                {/* <Outlet/> */}
+              <Canvas/>
             </div>
           </div>
         </div>
