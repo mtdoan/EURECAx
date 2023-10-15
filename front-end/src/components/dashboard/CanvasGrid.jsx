@@ -118,7 +118,7 @@ function CanvasGrid() {
           INNOVATION OGRP
         </div>
       </div>
-
+      
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}

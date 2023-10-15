@@ -9,7 +9,7 @@ const CanvasItem = (props) => {
 
     return (
         <>
-            <div className="grid-item">
+            <div className="grid-item" onClick={props.onClick}>
                 <text className="item-title">
                     {props.title}
                 </text>

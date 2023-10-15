@@ -1,6 +1,7 @@
 .canvas-container {
     width: 100%;
-    height: 100%;
+    height: calc(100vh - 72px);
+    padding: 0;
 }
 
 .grid-row {
@@ -36,6 +37,7 @@
     padding-top: 6px;
     padding-right: 8px;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .grid-item-2 {
@@ -49,6 +51,7 @@
     padding-right: 8px;
     overflow: hidden;
     text-align: center;
+    cursor: pointer;
 }
 
 .grid-item-mvi {
@@ -62,6 +65,7 @@
     padding-right: 8px;
     overflow: hidden;
     text-align: center;
+    cursor: pointer;
 }
 
 .grid-item-wide {
@@ -74,6 +78,7 @@
     padding-top: 6px;
     padding-right: 8px;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .grid-item-timings {

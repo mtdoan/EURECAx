@@ -19,7 +19,7 @@ const NavBar = () => {
 
     const [dropdownStatus, setDropdownStatus] = useState(false);
     let menuref = useRef();
-
+    
     useEffect(() => {
         let handler = (e) => {
             if (!menuref.current.contains(e.target)) {
