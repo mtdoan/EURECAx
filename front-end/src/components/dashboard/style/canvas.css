@@ -51,7 +51,6 @@
     padding-right: 8px;
     overflow: hidden;
     text-align: center;
-    cursor: pointer;
 }
 
 .grid-item-mvi {
@@ -65,7 +64,6 @@
     padding-right: 8px;
     overflow: hidden;
     text-align: center;
-    cursor: pointer;
 }
 
 .grid-item-wide {
@@ -78,7 +76,6 @@
     padding-top: 6px;
     padding-right: 8px;
     overflow: hidden;
-    cursor: pointer;
 }
 
 .grid-item-timings {

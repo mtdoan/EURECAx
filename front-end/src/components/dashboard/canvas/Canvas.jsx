@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, Component } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 // style
 import "../style/canvas.css";
@@ -15,20 +16,34 @@ import KeyTimings from "./KeyTimings";
 import ChaosBadge from "../assets/square.png";
 
 const Canvas = () => {
+    const user = JSON.parse(localStorage.getItem("User"));
+
+    const existingCanvas = async() => {
+        try {
+            const response = await axios.get(global.route + `/api/canvases/${user.canvasid}`, { withCredentials: true });
+            localStorage.setItem("Canvas", JSON.stringify(response.data));
+            setCanvasData();
+        } catch(error) {
+            console.error(error);
+        }
+    }
+    existingCanvas();
+
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedItem, setSelectedItem] = useState(null);
     const [savedTime, setSavedTime] = useState("");
-    const [isSaved, setIsSaved] = useState(false);
+    const [savedDate, setSavedDate] = useState("");
 
     const divStyle = { display: isModalOpen ? 'block' : 'none' }
 
-    const getCurrentDate = () => {
-        const now = new Date();
-        const day = now.getDate();
-        const month = now.getMonth() + 1;
-        const year = now.getFullYear();
-        return `${day}/${month}/${year}`;
-    };
+    const [modalName, setModalName] = useState("");
+    const [modalData, setModalData] = useState("");
+
+    const [eventData, setEventData] = useState("");
+    const [understandData, setUnderstandData] = useState("");
+    const [refineData, setRefineData] = useState("");
+    const [exploreData, setExploreData] = useState("");
+    const [createData, setCreateData] = useState("");
+    const [actionData, setActionData] = useState("");
 
     const handleSave = () => {
         // Get the current time and update the state
@@ -41,11 +56,51 @@ const Canvas = () => {
         const seconds = now.getSeconds().toString().padStart(2, "0");
         const currentTime = `${twelveHourFormatHours}:${minutes}:${seconds}${amPm}`;
 
+        // Get the current date and update the state
+        const day = now.getDate();
+        const month = now.getMonth() + 1;
+        const year = now.getFullYear();
+        const currentDate = `${day}/${month}/${year}`;
+
         setSavedTime(currentTime);
-        setIsSaved(true);
+        setSavedDate(currentDate);
     };
 
-    const openModal = () => {
+    const setCanvasData = async(title) => {
+        if(title)
+            setModalName(title);
+
+        try {
+            if (localStorage.getItem("Canvas") !== null) {
+                const canvas = JSON.parse(localStorage.getItem("Canvas"));
+                setEventData(canvas.eventData)
+                setUnderstandData(canvas.understandData)
+                setRefineData(canvas.refineData)
+                setExploreData(canvas.exploreData)
+                setCreateData(canvas.createData)
+                setActionData(canvas.actionData)
+            }
+
+            if (title == "EVENT") {
+                setModalData(eventData)
+            } else if (title == "UNDERSTAND") {
+                setModalData(understandData)
+            } else if (title == "REFINE") {
+                setModalData(refineData)
+            } else if (title == "EXPLORE") {
+                setModalData(exploreData)
+            } else if (title == "CREATE") {               
+                setModalData(createData)
+            } else if (title == "ACTION") {                
+                setModalData(actionData)
+            }
+        } catch {
+            console.error("Canvas not found")
+        }
+    }
+
+    const openModal = (title) => {
+        setCanvasData(title);
         setIsModalOpen(true);
     }
 
@@ -60,12 +115,12 @@ const Canvas = () => {
             <div className="canvas-container">
                 {/* ROW 1 */}
                 <div className="grid-row">
-                    <CanvasItem onClick={openModal} title={"EVENT"} text={"How might we build a dashboard and local LLM that supports problem solving for planning and prototyping for Defence and their partners in order to accelerate outcomes."} />
-                    <CanvasItem onClick={openModal} title={"UNDERSTAND"} text={"The solution will have two main components. A dashboard and a learning language model. Other components include a database and an API."} />
-                    <CanvasItem onClick={openModal} title={"REFINE"} text={"Dashboard login /registration, navigation menu, canvas, profile settings LLM local LLM selection, hosting requirements, training requirements, additional data requirements..."} />
-                    <CanvasItem onClick={openModal} title={"EXPLORE"} text={"Dashboard login /registration, navigation menu, canvas, profile settings LLM local LLM selection, hosting requirements, training requirements, additional data requirements..."} />
-                    <CanvasItem onClick={openModal} title={"CREATE"} text={"Dashboard login /registration, navigation menu, canvas, profile settings LLM local LLM selection, hosting requirements, training requirements, additional data requirements..."} />
-                    <CanvasItem onClick={openModal} title={"ACTION"} text={"MVP, Action Plan, SOP, Transfer Plan, Engagement Plan, Return to Model, Action Statement: By October, we would have created an MVP for Defence and their partners that provid..."} />
+                    <CanvasItem onClick={() => openModal("EVENT")} title={"EVENT"} text={eventData} />
+                    <CanvasItem onClick={() => openModal("UNDERSTAND")} title={"UNDERSTAND"} text={understandData} />
+                    <CanvasItem onClick={() => openModal("REFINE")} title={"REFINE"} text={refineData} />
+                    <CanvasItem onClick={() => openModal("EXPLORE")} title={"EXPLORE"} text={exploreData} />
+                    <CanvasItem onClick={() => openModal("CREATE")} title={"CREATE"} text={createData} />
+                    <CanvasItem onClick={() => openModal("ACTION")} title={"ACTION"} text={actionData} />
                 </div>
 
                 {/* ROW 2 */}
@@ -102,7 +157,7 @@ const Canvas = () => {
                 <div className="modal-container">
                     <div className="modal-header">
                         <text className="header-text">
-                            Last edited {savedTime} {getCurrentDate()}
+                            Last edited {savedTime} {savedDate}
                         </text>
 
                         <div style={{ "marginLeft": "auto", "marginRight": "0" }}>
@@ -123,11 +178,11 @@ const Canvas = () => {
                             <div className="modal-scroll-box__container" role="list">
                                 <div style={{ "display": "flex", "marginTop": "43px", "marginLeft": "-36px" }}>
                                     <img src={ChaosBadge} width={"26px"} height={"26px"} />
-                                    <text className="modal-title">EVENT</text>
+                                    <text className="modal-title">{modalName}</text>
                                 </div>
 
                                 <text className="modal-text" spellcheck="false">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                    {modalData}
                                 </text>
                             </div>
                         </div>
@@ -139,3 +194,5 @@ const Canvas = () => {
 }
 
 export default Canvas;
+
+// Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.

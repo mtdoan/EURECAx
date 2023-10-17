@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import Header from "components/Header";
 
 import HamburgerMenu from "./hambugerMenu";
 import NavBar from "./NavBar";
@@ -28,7 +27,6 @@ export default function Dashboard() {
               <NavBar />
             </div>
             <div className="flex flex-row h-[90vh] z-0">
-                {/* <Outlet/> */}
               <Canvas/>
             </div>
           </div>

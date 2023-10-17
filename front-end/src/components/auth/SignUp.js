@@ -10,6 +10,8 @@ export default function SignIn() {
     const [lastname, setLastname] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [canvasid, setCanvasId] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,7 +22,9 @@ export default function SignIn() {
                 firstname: firstname,
                 lastname: lastname,
                 email: email,
-                password: password
+                password: password,
+                isAdmin: isAdmin,
+                canvasid: canvasid,
             }, { withCredentials: true });
             localStorage.setItem("User", JSON.stringify(response.data));
             navigate("/", { replace: true });
