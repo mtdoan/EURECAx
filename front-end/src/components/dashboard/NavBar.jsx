@@ -116,6 +116,7 @@ const NavBar = () => {
                 canvasid: response.data._id,
             }, {withCredentials: true})
             localStorage.setItem("User", JSON.stringify(response2.data));
+            window.location.reload(false);
         } catch (error) {
             console.error(error);
         }
@@ -123,11 +124,10 @@ const NavBar = () => {
 
     const overwriteCanvas = async () => {
         try {
-
             closeDialog();
 
-            // delete doesnt work yet
-            // await axios.delete(global.route + `/api/canvases/${user.canvasid}`, { withCredentials: true });
+            await axios.delete(global.route + `/api/canvases/${user.canvasid}`, { withCredentials: true });
+            localStorage.removeItem("Canvas");
 
             const response2 = await axios.put(global.route + `/api/users/profile`, {
                 canvasid: "",

@@ -18,17 +18,6 @@ import ChaosBadge from "../assets/square.png";
 const Canvas = () => {
     const user = JSON.parse(localStorage.getItem("User"));
 
-    const existingCanvas = async() => {
-        try {
-            const response = await axios.get(global.route + `/api/canvases/${user.canvasid}`, { withCredentials: true });
-            localStorage.setItem("Canvas", JSON.stringify(response.data));
-            setCanvasData();
-        } catch(error) {
-            console.error(error);
-        }
-    }
-    existingCanvas();
-
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [savedTime, setSavedTime] = useState("");
     const [savedDate, setSavedDate] = useState("");
@@ -45,7 +34,21 @@ const Canvas = () => {
     const [createData, setCreateData] = useState("");
     const [actionData, setActionData] = useState("");
 
-    const handleSave = () => {
+    const loadCanvas = async () => {
+        try {
+            const response = await axios.get(global.route + `/api/canvases/${user.canvasid}`, { withCredentials: true });
+            localStorage.setItem("Canvas", JSON.stringify(response.data));
+            setCanvasData();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    useEffect(() => {
+        loadCanvas();
+    }, []);
+
+    const handleSave = async() => {
         // Get the current time and update the state
         const now = new Date();
         const hours = now.getHours();
@@ -64,6 +67,44 @@ const Canvas = () => {
 
         setSavedTime(currentTime);
         setSavedDate(currentDate);
+
+        let updatedEvent = eventData;
+        let updatedUnderstand = understandData;
+        let updatedRefine = refineData;
+        let updatedExplore = exploreData;
+        let updatedCreate = createData;
+        let updatedAction = actionData;
+
+        if (modalName == "EVENT") {
+            updatedEvent = modalData;
+        } else if (modalName == "UNDERSTAND") {
+            updatedUnderstand = modalData;
+        } else if (modalName == "REFINE") {
+            updatedRefine = modalData;
+        } else if (modalName == "EXPLORE") {
+            updatedExplore = modalData;
+        } else if (modalName == "CREATE") {
+            updatedCreate = modalData;
+        } else if (modalName == "ACTION") {
+            updatedAction = modalData;
+        } 
+
+        try {
+            const response = await axios.put(global.route + `/api/canvases/info`, {
+                canvasId: user.canvasid,
+                eventData: updatedEvent,
+                understandData: updatedUnderstand,
+                refineData: updatedRefine,
+                exploreData: updatedExplore,
+                createData: updatedCreate,
+                actionData: updatedAction,
+            }, { withCredentials: true });
+            localStorage.setItem("Canvas", JSON.stringify(response.data));
+        } catch(error) {
+            console.error(error);
+        }
+        closeModal();
+        window.location.reload(false);
     };
 
     const setCanvasData = async(title) => {
@@ -106,6 +147,10 @@ const Canvas = () => {
 
     const closeModal = (data) => {
         setIsModalOpen(false);
+    }
+
+    const updateModal = (e) => {
+        setModalData(e.target.value);
     }
 
     return (
@@ -181,9 +226,8 @@ const Canvas = () => {
                                     <text className="modal-title">{modalName}</text>
                                 </div>
 
-                                <text className="modal-text" spellcheck="false">
-                                    {modalData}
-                                </text>
+                                <textarea className="modal-textbox" spellcheck="false" defaultValue={modalData} onChange={updateModal}>
+                                </textarea>
                             </div>
                         </div>
                     </div>

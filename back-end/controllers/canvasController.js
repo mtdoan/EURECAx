@@ -57,10 +57,9 @@ const getCanvasById = asyncHandler(async (req, res) => {
 });
 
 // @desc Delete canvas
-// @route DELETE /api/canvases/:id
-// access Private/Admin
+// @route DELETE /api/canvases/info
+// access Private
 const deleteCanvas = asyncHandler(async (req, res) => {
-    console.log(req.params.id);
     const canvas = await Canvas.findById(req.params.id).select();
 
     if (canvas) {
@@ -78,7 +77,6 @@ const deleteCanvas = asyncHandler(async (req, res) => {
 const updateCanvasInfo = asyncHandler(async (req, res) => {
     let log = [];
     let canvas = await Canvas.findById(req.body.canvasId);
-
 
     if (canvas) {
         canvas.user = req.body.user;
