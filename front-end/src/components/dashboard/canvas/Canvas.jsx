@@ -143,15 +143,19 @@ const Canvas = () => {
     const openModal = (title) => {
         setCanvasData(title);
         setIsModalOpen(true);
+        // document.body.style.overflow = 'hidden';
     }
 
     const closeModal = (data) => {
         setIsModalOpen(false);
+        // document.body.style.overflow = 'unset';
     }
 
     const updateModal = (e) => {
         setModalData(e.target.value);
     }
+
+    document.body.style.overflow = 'hidden';
 
     return (
         <>

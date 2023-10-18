@@ -22,14 +22,6 @@ const NavBar = () => {
 
     const [dropdownStatus, setDropdownStatus] = useState(false);
     let menuref = useRef();
-    
-    // useEffect(() => {
-    //     if (localStorage.getItem("Canvas") !== null) {
-    //         // if (JSON.parse(localStorage.getItem("Canvas"))) {
-    //         //     setCanvas(JSON.parse(localStorage.getItem("Canvas")));
-    //         // }
-    //     }
-    // });
 
     useEffect(() => {
         localStorage.setItem("Canvas", JSON.stringify(canvas))
