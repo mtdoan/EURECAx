@@ -1,4 +1,8 @@
-import { useReducer } from "react";
+import { useReducer, useState, useEffect, useRef } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+// assets
 import Button from "./Button";
 import ChallengeStatement from "./ChallengeStatement";
 import StatusBar from "./StatusBar";
@@ -160,6 +164,142 @@ const DashboardFlow = () => {
     return jsonData;
   };
 
+  // Canvas functions
+  let navigate = useNavigate();
+
+  const user = JSON.parse(localStorage.getItem("User"));
+  const [canvas, setCanvas] = useState("");
+
+  const [hmw, setHmw] = useState("");
+  const [forInput, setForInput] = useState("");
+  const [iot, setIot] = useState("");
+
+  const [understandData, setUnderstandData] = useState("");
+  const [refineData, setRefineData] = useState("");
+  const [exploreData, setExploreData] = useState("");
+  const [createData, setCreateData] = useState("");
+  const [actionData, setActionData] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("Canvas", JSON.stringify(canvas))
+  }, [canvas])
+
+  const openDialog = async () => {
+    if (document.getElementsByClassName("warning-backdrop")) {
+      document.getElementsByClassName("warning-backdrop")[0].style.display = "block";
+    }
+  }
+
+  const closeDialog = async () => {
+    if (document.getElementsByClassName("warning-backdrop")) {
+      document.getElementsByClassName("warning-backdrop")[0].style.display = "none";
+    }
+  }
+
+  const checkCanvasExists = async () => {
+    if (user.canvasid == null || user.canvasid == "") {
+      alert("New canvas created");
+      registerCanvas();
+    } else {
+      openDialog();
+    }
+  }
+
+  const registerCanvas = async () => {
+    try {
+      const response = await axios.post(global.route + `/api/canvases`, {
+        userid: user._id,
+        eventData: "event",
+        understandData: "understand",
+        refineData: "refine",
+        exploreData: "explore",
+        createData: "create",
+        actionData: "action",
+      }, { withCredentials: true });
+      setCanvas(response.data);
+
+      const response2 = await axios.put(global.route + `/api/users/profile`, {
+        canvasid: response.data._id,
+      }, { withCredentials: true })
+      localStorage.setItem("User", JSON.stringify(response2.data));
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const overwriteCanvas = async () => {
+    try {
+      closeDialog();
+
+      await axios.delete(global.route + `/api/canvases/${user.canvasid}`, { withCredentials: true });
+      localStorage.removeItem("Canvas");
+
+      const response2 = await axios.put(global.route + `/api/users/profile`, {
+        canvasid: "",
+      }, { withCredentials: true });
+      localStorage.setItem("User", JSON.stringify(response2.data));
+
+      registerCanvas();
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleNext = async() => {
+    // isAtLastStep ? () => checkCanvasExists() : () => dispatch({ type: "incrementStep" })
+
+    if (isAtFirstStep) {
+      // get info from LLM
+
+      try {
+        const response = await axios.get(`https://chaos1-llm.vercel.app/llm`, {
+          promptText: ("How might we " + hmw + " for " + forInput + " in order to " + iot),
+        }, { withCredentials: true });
+        
+        console.log("data " + response.data)
+        console.log("UNDERSTAND DATA " + response[0]);
+
+        setUnderstandData(response[0]);
+        setRefineData(response[1]);
+        setExploreData(response[2]);
+        setCreateData(response[3]);
+        setActionData(response[4]);
+      } catch (error) {
+        console.error(error);
+      }
+      
+      dispatch({ type: "incrementStep" })
+    } else if (isAtLastStep) {
+      // create canvas
+      
+      checkCanvasExists()
+    } else {
+      // next stage
+      
+      dispatch({ type: "incrementStep" })
+    }
+  }
+
+  const handleChange = async (eventStepTitle, evtValue, key) => {
+    if (key == "How might we") {
+      setHmw(evtValue)
+    } else if (key == "for") {
+      setForInput(evtValue)
+    } else if (key == "in order to") {
+      setIot(evtValue)
+    }
+
+    dispatch({
+      type: "textInput",
+      payload: {
+        keys: [eventStepTitle, key],
+        value: evtValue,
+      },
+    });
+  }
+
+
   return (
     <div className="w-full h-full p-1">
       <div className="w-full h-full p-6 bg-white">
@@ -207,13 +347,7 @@ const DashboardFlow = () => {
                   {isAtFirstStep ? (
                     <ChallengeStatement
                       onChange={(evt, key) => {
-                        dispatch({
-                          type: "textInput",
-                          payload: {
-                            keys: [eventStep.title, key],
-                            value: evt.target.value,
-                          },
-                        });
+                        handleChange(eventStep.title, evt.target.value, key)
                       }}
                       value={state["Challenge Statement"]}
                     />
@@ -255,8 +389,32 @@ const DashboardFlow = () => {
             <Button
               label={isAtLastStep ? "Execute" : "Next"}
               className="bg-primary-700 text-white"
-              onClick={() => dispatch({ type: "incrementStep" })}
+              // onClick={() => dispatch({ type: "incrementStep" })}
+              onClick={() => handleNext()}
             />
+          </div>
+        </div>
+      </div>
+
+      <div className="warning-backdrop">
+        <div className="warning-container">
+          <text className="warning-heading">
+            Warning
+          </text>
+          <text className="warning-subheading">
+            Are you sure you want to create a new canvas?
+          </text>
+          <text className="warning-description">
+            This will overwrite your current data.
+          </text>
+
+          <div className="warning-action">
+            <button className="cancel-button" onClick={() => closeDialog()}>
+              Cancel
+            </button>
+            <button className="continue-button" onClick={() => overwriteCanvas()}>
+              Continue
+            </button>
           </div>
         </div>
       </div>

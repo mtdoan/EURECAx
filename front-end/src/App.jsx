@@ -13,13 +13,13 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Dashboard />}>
+        <Route path="/" element={<Dashboard/>}>
           <Route index element={<Canvas />} />
-          <Route path="dashboard">
-            <Route index element={<Canvas />} />
-            <Route path="new-project" element={<DashboardFlow />} />
-          </Route>
         </Route>
+        <Route path="/dashboard" element={<Dashboard />}>
+          <Route index element={<Canvas />} />
+        </Route>
+        <Route path="/new-project" element={<DashboardFlow />} />
         <Route path="/signIn" element={<SignIn />} />
         <Route path="/signUp" element={<SignUp />} />
       </Routes>
