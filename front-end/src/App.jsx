@@ -9,6 +9,7 @@ import Canvas from "components/dashboard/canvas/Canvas";
 
 function App() {
   global.route = "http://localhost:3000";
+  global.llm = "http://localhost:4000" // https://chaos1-llm.vercel.app/llm
 
   return (
     <Router>

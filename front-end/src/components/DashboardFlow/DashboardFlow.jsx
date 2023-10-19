@@ -209,12 +209,12 @@ const DashboardFlow = () => {
     try {
       const response = await axios.post(global.route + `/api/canvases`, {
         userid: user._id,
-        eventData: "event",
-        understandData: "understand",
-        refineData: "refine",
-        exploreData: "explore",
-        createData: "create",
-        actionData: "action",
+        eventData: "How might we " + hmw + " for " + forInput + " in order to " + iot,
+        understandData: understandData,
+        refineData: refineData,
+        exploreData: exploreData,
+        createData: createData,
+        actionData: actionData,
       }, { withCredentials: true });
       setCanvas(response.data);
 
@@ -247,24 +247,23 @@ const DashboardFlow = () => {
   }
 
   const handleNext = async() => {
-    // isAtLastStep ? () => checkCanvasExists() : () => dispatch({ type: "incrementStep" })
-
     if (isAtFirstStep) {
       // get info from LLM
 
       try {
-        const response = await axios.get(`https://chaos1-llm.vercel.app/llm`, {
-          promptText: ("How might we " + hmw + " for " + forInput + " in order to " + iot),
+        let prompt = "How might we " + hmw + " for " + forInput + " in order to " + iot;
+        const response = await axios.post(global.llm + `/llm`, {
+          promptText: prompt,
         }, { withCredentials: true });
-        
-        console.log("data " + response.data)
-        console.log("UNDERSTAND DATA " + response[0]);
 
-        setUnderstandData(response[0]);
-        setRefineData(response[1]);
-        setExploreData(response[2]);
-        setCreateData(response[3]);
-        setActionData(response[4]);
+        // these states aren't updating in time to be used
+        setUnderstandData(JSON.stringify(response.data.outputArr[0]));
+        setRefineData(JSON.stringify(response.data.outputArr[1]));
+        setExploreData(JSON.stringify(response.data.outputArr[2]));
+        setCreateData(JSON.stringify(response.data.outputArr[3]));
+        setActionData(JSON.stringify(response.data.outputArr[4]));
+
+
       } catch (error) {
         console.error(error);
       }
@@ -298,7 +297,6 @@ const DashboardFlow = () => {
       },
     });
   }
-
 
   return (
     <div className="w-full h-full p-1">
