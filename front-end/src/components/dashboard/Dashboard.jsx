@@ -27,7 +27,7 @@ export default function Dashboard() {
               <NavBar />
             </div>
             <div className="flex flex-row h-[90vh] z-0">
-              <Canvas/>
+              <Outlet/>
             </div>
           </div>
         </div>

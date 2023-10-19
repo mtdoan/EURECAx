@@ -101,12 +101,8 @@
 
 .menu__item.closed:hover {
     cursor: pointer;
-    background-color: rgba(28, 28, 28, 0.1);
-    border-radius: 8px;
-
+    background-color: rgba(28, 28, 28, 0.1); 
 }
-
-
 
 .menu__item--svg-container {
 padding: 10px;
