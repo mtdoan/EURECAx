@@ -5,7 +5,7 @@ import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import Dashboard from "./components/dashboard/Dashboard";
 import DashboardFlow from "components/DashboardFlow";
-import CanvasGrid from "components/dashboard/CanvasGrid";
+import CanvasGrid from "components/dashboard/Canvas";
 
 function App() {
   global.route = "http://localhost:3000";

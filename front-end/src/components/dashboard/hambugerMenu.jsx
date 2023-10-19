@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+
+// style
 import "./style/hamburgerMenu.css";
 
 //Assets
@@ -13,35 +16,26 @@ import LearnIcon from "./assets/learnIcon";
 import ResizeButton from "./assets/resizeButton";
 
 const HamburgerMenu = () => {
+  let navigate = useNavigate();
+
+  const [expanded, setExpanded] = useState(true);
+
+  const toggleSidebar = () => {
+    setExpanded(!expanded);
 
 
-    const [expanded, setExpanded] = useState(true);
-    const [activeButton, setActiveButton] = useState(null);
 
-    const toggleSidebar = () => {
-      setExpanded(!expanded);
-      const resizeButton = document.getElementById("resizeButton");
-      resizeButton.classList.toggle("rotated");
-    };
+
+    const resizeButton = document.getElementById("resizeButton");
+
+    // Toggle the 'rotated' class to trigger the rotation animation
+    resizeButton.classList.toggle("rotated");
   
-    const handleButtonClick = (index) => {
-
-      if (activeButton !== null) {
-        const prevButton = document.getElementById(`menu-item-${activeButton}`);
-        prevButton.style.backgroundColor = "";
-      } //this reset previous button if clicked
-  
-      // Change the background color of the clicked button
-      const currentButton = document.getElementById(`menu-item-${index}`);
-      currentButton.style.backgroundColor =
-        currentButton.style.backgroundColor === "" ? "rgba(28, 28, 28, 0.2)" : "";
-      //this change current  button background if clicked
-
-      setActiveButton(index);
-    };
 
 
 
+
+  }
 
 
   return (
@@ -57,77 +51,71 @@ const HamburgerMenu = () => {
           </figure>
 
           <button
+            
             className={`resizeButton ${expanded ? 'opened' : 'closed'} rotateButton`}
-            onClick={toggleSidebar}>
+            onClick={toggleSidebar}
+            >
               <ResizeButton id="resizeButton" className="rotateButton" ></ResizeButton>
           </button>
 
         </div>
 
         <div className="container">
-          <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
+          
+        <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
             <Link to="">
-                <button
-                  id="menu-item-1"
-                  className={`menu__item ${expanded ? 'opened' : 'closed'}`}
-                  type="button"
-                  onClick={() => handleButtonClick(1)}
-                  >
-                  <div className="menu__item--svg-container">
-                    <DashboardIcon className="menu__item--svg" />
-                  </div>
-                  <p className={`menu__item--name ${expanded ? 'opened' : 'closed'}`}>Dashboard</p>
-                </button>
+              <div 
+                className={`menu__item ${expanded ? 'opened' : 'closed'}`} 
+                type="button">
+                <div className="menu__item--svg-container">
+                  <DashboardIcon className="menu__item--svg" />
+                </div>
+                <p className={`menu__item--name ${expanded ? 'opened' : 'closed'}`}>Dashboard</p>
+              </div>
             </Link>
           </div>
 
-          <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
+        <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
             <Link to="">
-              <button
-                id="menu-item-2"
-                className={`menu__item ${expanded ? 'opened' : 'closed'}`}
-                type="button"
-                onClick={() => handleButtonClick(2)}
-              >
+              <div 
+                className={`menu__item ${expanded ? 'opened' : 'closed'}`} 
+                type="button">
                 <div className="menu__item--svg-container">
                   <DocumentsIcon className="menu__item--svg" />
                 </div>
                 <p className={`menu__item--name ${expanded ? 'opened' : 'closed'}`}>Documents</p>
-              </button>
+              </div>
             </Link>
           </div>
 
-          <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
+        <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
             <Link to="">
-              <button
-                id="menu-item-3"
-                className={`menu__item ${expanded ? 'opened' : 'closed'}`}
-                type="button"
-                onClick={() => handleButtonClick(3)}
-              >
+              <div 
+                className={`menu__item ${expanded ? 'opened' : 'closed'}`} 
+                type="button">
                 <div className="menu__item--svg-container">
                   <ConnectIcon className="menu__item--svg" />
                 </div>
                 <p className={`menu__item--name ${expanded ? 'opened' : 'closed'}`}>Connect</p>
-              </button>
+              </div>
             </Link>
           </div>
 
-          <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
+        <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
             <Link to="">
-              <button
-                id="menu-item-4"
-                className={`menu__item ${expanded ? 'opened' : 'closed'}`}
-                type="button"
-                onClick={() => handleButtonClick(4)}
-              >
+              <div 
+                className={`menu__item ${expanded ? 'opened' : 'closed'}`} 
+                type="button">
                 <div className="menu__item--svg-container">
                   <LearnIcon className="menu__item--svg" />
                 </div>
                 <p className={`menu__item--name ${expanded ? 'opened' : 'closed'}`}>Learn</p>
-              </button>
+              </div>
             </Link>
           </div>
+
+
+
 
         </div>
       </div>
@@ -136,7 +124,3 @@ const HamburgerMenu = () => {
 };
 
 export default HamburgerMenu;
-
-
-
-
