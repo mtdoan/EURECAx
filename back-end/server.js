@@ -4,8 +4,7 @@ const cookieParser = require('cookie-parser');
 
 const userRoutes = require('./routes/userRoutes');
 const usageRoutes = require('./routes/usageRoutes');
-
-const User = require('./models/userModel');
+const canvasRoutes = require("./routes/canvasRoutes");
 
 const app = express();
 
@@ -32,5 +31,6 @@ app.get('/api', (req, res) => {
 
 app.use('/api/users', userRoutes);
 app.use('/api/usages', usageRoutes);
+app.use("/api/canvases", canvasRoutes);
 
-module.exports = { app };
+module.exports = { app }; 

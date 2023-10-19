@@ -35,6 +35,16 @@ const UserSchema = new mongoose.Schema({
         required: [true, "Please provide a password!"],
         unique: false,
     },
+    isAdmin: {
+        type: Boolean,
+        require: [true, "Please specify account type!"],
+        default: false,
+    },
+    canvasid: {
+        type: String,
+        require: true,
+        default: ""
+    }
 })
 
 // Match user entered password to hashed password in database

@@ -19,6 +19,8 @@ const authUser = asyncHandler(async (req, res) => {
             firstname: user.firstname,
             lastname: user.lastname,
             email: user.email,
+            isAdmin: user.isAdmin,
+            canvasid: user.canvasid,
         });
     } else {
         res.status(401);
@@ -30,7 +32,8 @@ const authUser = asyncHandler(async (req, res) => {
 // @route POST /api/users
 // @access Public
 const registerUser = asyncHandler(async (req, res) => {
-    const { username, firstname, lastname, email, password } = req.body;
+    const { username, firstname, lastname, email, password, isAdmin, canvasid } = req.body;
+    console.log( "CANVAS ID " + canvasid );
 
     const userExists = await User.findOne({ email });
 
@@ -45,6 +48,8 @@ const registerUser = asyncHandler(async (req, res) => {
         lastname,
         email,
         password,
+        isAdmin,
+        canvasid
     });
 
     user.save();
@@ -56,6 +61,8 @@ const registerUser = asyncHandler(async (req, res) => {
             firstname: user.firstname,
             lastname: user.lastname,
             email: user.email,
+            isAdmin: user.isAdmin,
+            canvasid: user.canvasid,
         });
     } else {
         res.status(400);
@@ -105,6 +112,8 @@ const updateUserProfile = asyncHandler(async (req, res) => {
         user.firstname = req.body.firstname || user.firstname;
         user.lastname = req.body.lastname || user.lastname;
         user.email = req.body.email || user.email;
+        user.isAdmin = req.body.isAdmin || user.isAdmin;
+        user.canvasid = req.body.canvasid || user.canvasid;
 
         const updatedUser = await user.save();
 
@@ -114,6 +123,8 @@ const updateUserProfile = asyncHandler(async (req, res) => {
             firstname: user.firstname,
             lastname: user.lastname,
             email: updatedUser.email,
+            isAdmin: updatedUser.isAdmin,
+            canvasid: updatedUser.canvasid,
         });
     } else {
         res.status(404);
@@ -169,6 +180,8 @@ const updateUser = asyncHandler(async (req, res) => {
         user.firstname = req.body.firstname || user.firstname;
         user.lastname = req.body.lastname || user.lastname;
         user.email = req.body.email || user.email;
+        user.isAdmin = req.body.isAdmin || user.isAdmin;
+        user.canvasid = req.body.canvasid || user.canvasid;
 
         if (req.body.password) {
             user.password = req.body.password;
@@ -182,6 +195,8 @@ const updateUser = asyncHandler(async (req, res) => {
             firstname: updatedUser.username,
             firstname: updatedUser.lastname,
             email: updatedUser.email,
+            isAdmin: updatedUser.isAdmin,
+            canvasid: updatedUser.canvasid,
         });
     } else {
         res.status(404);

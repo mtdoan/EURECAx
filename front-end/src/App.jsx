@@ -5,7 +5,7 @@ import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import Dashboard from "./components/dashboard/Dashboard";
 import DashboardFlow from "components/DashboardFlow";
-import CanvasGrid from "components/dashboard/CanvasGrid";
+import Canvas from "components/dashboard/canvas/Canvas";
 
 function App() {
   global.route = "http://localhost:3000";
@@ -14,9 +14,9 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Dashboard />}>
-          <Route index element={<CanvasGrid />} />
+          <Route index element={<Canvas />} />
           <Route path="dashboard">
-            <Route index element={<CanvasGrid />} />
+            <Route index element={<Canvas />} />
             <Route path="new-project" element={<DashboardFlow />} />
           </Route>
         </Route>
