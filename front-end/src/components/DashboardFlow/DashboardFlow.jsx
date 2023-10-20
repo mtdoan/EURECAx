@@ -51,6 +51,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         step: Math.min(state.step + 1, maxSteps),
+        stepProgress: Math.min(state.stepProgress + 1, maxSteps),
       };
     }
     case "decrementStep": {
@@ -101,6 +102,7 @@ const eventStepTitles = eventSteps.reduce((prev, evt) => {
 const DashboardFlow = () => {
   const [state, dispatch] = useReducer(reducer, {
     step: 1,
+    stepProgress: 1,
     notes: [...Array(maxSteps).fill("")],
     isEventEditable: true,
     ...eventStepTitles,
@@ -108,8 +110,8 @@ const DashboardFlow = () => {
   const isAtFirstStep = state.step == 1;
   const isAtLastStep = state.step == maxSteps;
 
-  const handleClickAiSuggestions = (eventStep) => {
-    const text = generateText(eventStep.subtitle.toLowerCase());
+  const handleClickAiSuggestions = (eventStep, text) => {
+    // const text = generateText(eventStep.subtitle.toLowerCase());
     dispatch({
       type: "isEventEditable",
       payload: { value: false },
@@ -174,12 +176,6 @@ const DashboardFlow = () => {
   const [forInput, setForInput] = useState("");
   const [iot, setIot] = useState("");
 
-  const [understandData, setUnderstandData] = useState("");
-  const [refineData, setRefineData] = useState("");
-  const [exploreData, setExploreData] = useState("");
-  const [createData, setCreateData] = useState("");
-  const [actionData, setActionData] = useState("");
-
   useEffect(() => {
     localStorage.setItem("Canvas", JSON.stringify(canvas))
   }, [canvas])
@@ -210,11 +206,11 @@ const DashboardFlow = () => {
       const response = await axios.post(global.route + `/api/canvases`, {
         userid: user._id,
         eventData: "How might we " + hmw + " for " + forInput + " in order to " + iot,
-        understandData: understandData,
-        refineData: refineData,
-        exploreData: exploreData,
-        createData: createData,
-        actionData: actionData,
+        understandData: state["Understand Event"],
+        refineData: state["Refine Event"],
+        exploreData: state["Explore Event"],
+        createData: state["Create Event"],
+        actionData: state["Action Event"],
       }, { withCredentials: true });
       setCanvas(response.data);
 
@@ -256,13 +252,11 @@ const DashboardFlow = () => {
           promptText: prompt,
         }, { withCredentials: true });
 
-        // these states aren't updating in time to be used
-        setUnderstandData(JSON.stringify(response.data.outputArr[0]));
-        setRefineData(JSON.stringify(response.data.outputArr[1]));
-        setExploreData(JSON.stringify(response.data.outputArr[2]));
-        setCreateData(JSON.stringify(response.data.outputArr[3]));
-        setActionData(JSON.stringify(response.data.outputArr[4]));
-
+        dispatch({ type: "textInput", payload: { key: "Understand Event", value: JSON.stringify(response.data.outputArr[0]) }});
+        dispatch({ type: "textInput", payload: { key: "Refine Event", value: JSON.stringify(response.data.outputArr[1]) } });
+        dispatch({ type: "textInput", payload: { key: "Explore Event", value: JSON.stringify(response.data.outputArr[2]) } });
+        dispatch({ type: "textInput", payload: { key: "Create Event", value: JSON.stringify(response.data.outputArr[3]) } });
+        dispatch({ type: "textInput", payload: { key: "Action Event", value: JSON.stringify(response.data.outputArr[4]) } });
 
       } catch (error) {
         console.error(error);
@@ -277,6 +271,13 @@ const DashboardFlow = () => {
       // next stage
       
       dispatch({ type: "incrementStep" })
+    }
+
+    if (state.step >= state.stepProgress) {
+      setTimeout(() => {
+        const eventStep = eventSteps[state.step]
+        handleClickAiSuggestions(eventStep, state[eventStep.title])
+      }, 0);
     }
   }
 
@@ -329,7 +330,7 @@ const DashboardFlow = () => {
                     <Button
                       className="bg-white !text-gray-800 text-sm !w-20"
                       label="AI"
-                      onClick={() => handleClickAiSuggestions(eventStep)}
+                      onClick={() => handleClickAiSuggestions(eventSteps[state.step - 1], state[eventStep.title])}
                       icon={
                         <img
                           src="/ai-icon.svg"
