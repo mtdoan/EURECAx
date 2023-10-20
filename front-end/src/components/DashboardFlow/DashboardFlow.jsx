@@ -272,11 +272,12 @@ const DashboardFlow = () => {
       
       dispatch({ type: "incrementStep" })
     }
-
+    
     if (state.step >= state.stepProgress) {
       setTimeout(() => {
         const eventStep = eventSteps[state.step]
-        handleClickAiSuggestions(eventStep, state[eventStep.title])
+        if(eventStep != undefined) 
+          handleClickAiSuggestions(eventStep, state[eventStep.title])
       }, 0);
     }
   }
