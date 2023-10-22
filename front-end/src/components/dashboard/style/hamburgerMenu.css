@@ -57,13 +57,13 @@
 .menu__item--container.opened {
     padding-left: 12px;
     width: 100%;
-    padding: 10px 0;
+    padding: 5px 0;
 
 }
 
 .menu__item--container.closed {
-    margin-bottom: 16px;
-    padding-left: 0px;
+    padding-left: 12px;
+    padding: 5px 0;
     width: 100%;
 }
 
@@ -105,7 +105,7 @@
 }
 
 .menu__item--svg-container {
-padding: 10px;
+    padding: 10px;
 
 }
 

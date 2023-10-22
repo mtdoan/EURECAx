@@ -1,6 +1,7 @@
 import { useReducer, useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { RotatingLines } from 'react-loader-spinner'
 
 // assets
 import Button from "./Button";
@@ -9,6 +10,7 @@ import StatusBar from "./StatusBar";
 import InputCard from "./InputCard";
 import { generateText } from "util/sampleData";
 import { ExportJsonLink } from "components/shared";
+import BackIcon from "../dashboard/icons/backIcon";
 
 const eventSteps = [
   {
@@ -175,6 +177,7 @@ const DashboardFlow = () => {
   const [hmw, setHmw] = useState("");
   const [forInput, setForInput] = useState("");
   const [iot, setIot] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("Canvas", JSON.stringify(canvas))
@@ -217,6 +220,7 @@ const DashboardFlow = () => {
       const response2 = await axios.put(global.route + `/api/users/profile`, {
         canvasid: response.data._id,
       }, { withCredentials: true })
+
       localStorage.setItem("User", JSON.stringify(response2.data));
       navigate("/");
     } catch (error) {
@@ -242,41 +246,44 @@ const DashboardFlow = () => {
     }
   }
 
-  const handleNext = async() => {
+  const handleNext = async () => {
     if (isAtFirstStep) {
       // get info from LLM
 
       try {
+        setIsLoading(true);
         let prompt = "How might we " + hmw + " for " + forInput + " in order to " + iot;
         const response = await axios.post(global.llm + `/llm`, {
           promptText: prompt,
         }, { withCredentials: true });
 
-        dispatch({ type: "textInput", payload: { key: "Understand Event", value: JSON.stringify(response.data.outputArr[0]) }});
-        dispatch({ type: "textInput", payload: { key: "Refine Event", value: JSON.stringify(response.data.outputArr[1]) } });
-        dispatch({ type: "textInput", payload: { key: "Explore Event", value: JSON.stringify(response.data.outputArr[2]) } });
-        dispatch({ type: "textInput", payload: { key: "Create Event", value: JSON.stringify(response.data.outputArr[3]) } });
-        dispatch({ type: "textInput", payload: { key: "Action Event", value: JSON.stringify(response.data.outputArr[4]) } });
+        // console.log(response.data.outputArr[0])
+        dispatch({ type: "textInput", payload: { key: "Understand Event", value: response.data.outputArr[0] } });
+        dispatch({ type: "textInput", payload: { key: "Refine Event", value: response.data.outputArr[1] } });
+        dispatch({ type: "textInput", payload: { key: "Explore Event", value: response.data.outputArr[2] } });
+        dispatch({ type: "textInput", payload: { key: "Create Event", value: response.data.outputArr[3] } });
+        dispatch({ type: "textInput", payload: { key: "Action Event", value: response.data.outputArr[4] } });
 
       } catch (error) {
         console.error(error);
       }
-      
+
+      setIsLoading(false);
       dispatch({ type: "incrementStep" })
     } else if (isAtLastStep) {
       // create canvas
-      
+
       checkCanvasExists()
     } else {
       // next stage
-      
+
       dispatch({ type: "incrementStep" })
     }
-    
+
     if (state.step >= state.stepProgress) {
       setTimeout(() => {
         const eventStep = eventSteps[state.step]
-        if(eventStep != undefined) 
+        if (eventStep != undefined)
           handleClickAiSuggestions(eventStep, state[eventStep.title])
       }, 0);
     }
@@ -304,9 +311,14 @@ const DashboardFlow = () => {
     <div className="w-full h-full p-1">
       <div className="w-full h-full p-6 bg-white">
         <div className="flex flex-col gap-8">
-          <h1 className="font-bold">
-            Generate {eventSteps[state.step - 1].title}
-          </h1>
+          <div style={{"display":"flex"}}>
+              <h1 className="font-bold">
+                Generate {eventSteps[state.step - 1].title}
+              </h1>
+              <div className="back-button" onClick={()=> navigate("/")} >
+                <BackIcon />
+              </div>
+          </div>
           <StatusBar step={state.step} maxSteps={6} />
           <div className="flex flex-row w-full gap-4">
             {eventSteps.map((eventStep, idx) => (
@@ -386,35 +398,44 @@ const DashboardFlow = () => {
                 }`}
               data={getJsonData()}
             />
+            {
+              isLoading == true ?
+                <RotatingLines
+                  strokeColor="rgba(0, 108, 253, 0.5)"
+                  strokeWidth="5"
+                  animationDuration="0.75"
+                  width="26"
+                  visible={true}
+                /> : ""
+            }
             <Button
               label={isAtLastStep ? "Execute" : "Next"}
               className="bg-primary-700 text-white"
               // onClick={() => dispatch({ type: "incrementStep" })}
-              onClick={() => handleNext()}
-            />
+              onClick={() => handleNext()}/>
           </div>
-        </div>
-      </div>
 
-      <div className="warning-backdrop">
-        <div className="warning-container">
-          <text className="warning-heading">
-            Warning
-          </text>
-          <text className="warning-subheading">
-            Are you sure you want to create a new canvas?
-          </text>
-          <text className="warning-description">
-            This will overwrite your current data.
-          </text>
+          <div className="warning-backdrop">
+            <div className="warning-container">
+              <text className="warning-heading">
+                Warning
+              </text>
+              <text className="warning-subheading">
+                Are you sure you want to create a new canvas?
+              </text>
+              <text className="warning-description">
+                This will overwrite your current data.
+              </text>
 
-          <div className="warning-action">
-            <button className="cancel-button" onClick={() => closeDialog()}>
-              Cancel
-            </button>
-            <button className="continue-button" onClick={() => overwriteCanvas()}>
-              Continue
-            </button>
+              <div className="warning-action">
+                <button className="cancel-button" onClick={() => closeDialog()}>
+                  Cancel
+                </button>
+                <button className="continue-button" onClick={() => overwriteCanvas()}>
+                  Continue
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

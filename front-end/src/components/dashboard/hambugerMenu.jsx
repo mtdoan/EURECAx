@@ -22,19 +22,10 @@ const HamburgerMenu = () => {
 
   const toggleSidebar = () => {
     setExpanded(!expanded);
-
-
-
-
     const resizeButton = document.getElementById("resizeButton");
 
     // Toggle the 'rotated' class to trigger the rotation animation
     resizeButton.classList.toggle("rotated");
-  
-
-
-
-
   }
 
 
