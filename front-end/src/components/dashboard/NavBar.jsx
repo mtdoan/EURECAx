@@ -1,24 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import axios from "axios";
 
 // style
 import "./style/navbar.css";
 import "./style/profiledropdown.css";
 import "./style/dialogs.css";
-import "./style/navbar.css";
-import "./style/profiledropdown.css";
-import "./style/dialogs.css";
 
-// assets
 // assets
 import SearchIcon from "./icons/searchIcon"
-import CommandIcon from "./icons/commandIcon"
-import ExecuteIcon from "./icons/executeIcon"
-
-import LogOut from "./icons/logOut"
 import CommandIcon from "./icons/commandIcon"
 import ExecuteIcon from "./icons/executeIcon"
 
