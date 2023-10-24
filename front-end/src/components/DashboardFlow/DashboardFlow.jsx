@@ -1,10 +1,16 @@
-import { useReducer } from "react";
+import { useReducer, useState, useEffect, useRef } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { RotatingLines } from 'react-loader-spinner'
+
+// assets
 import Button from "./Button";
 import ChallengeStatement from "./ChallengeStatement";
 import StatusBar from "./StatusBar";
 import InputCard from "./InputCard";
 import { generateText } from "util/sampleData";
 import { ExportJsonLink } from "components/shared";
+import BackIcon from "../dashboard/icons/backIcon";
 
 const eventSteps = [
   {
@@ -47,6 +53,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         step: Math.min(state.step + 1, maxSteps),
+        stepProgress: Math.min(state.stepProgress + 1, maxSteps),
       };
     }
     case "decrementStep": {
@@ -97,6 +104,7 @@ const eventStepTitles = eventSteps.reduce((prev, evt) => {
 const DashboardFlow = () => {
   const [state, dispatch] = useReducer(reducer, {
     step: 1,
+    stepProgress: 1,
     notes: [...Array(maxSteps).fill("")],
     isEventEditable: true,
     ...eventStepTitles,
@@ -104,8 +112,8 @@ const DashboardFlow = () => {
   const isAtFirstStep = state.step == 1;
   const isAtLastStep = state.step == maxSteps;
 
-  const handleClickAiSuggestions = (eventStep) => {
-    const text = generateText(eventStep.subtitle.toLowerCase());
+  const handleClickAiSuggestions = (eventStep, text) => {
+    // const text = generateText(eventStep.subtitle.toLowerCase());
     dispatch({
       type: "isEventEditable",
       payload: { value: false },
@@ -160,13 +168,157 @@ const DashboardFlow = () => {
     return jsonData;
   };
 
+  // Canvas functions
+  let navigate = useNavigate();
+
+  const user = JSON.parse(localStorage.getItem("User"));
+  const [canvas, setCanvas] = useState("");
+
+  const [hmw, setHmw] = useState("");
+  const [forInput, setForInput] = useState("");
+  const [iot, setIot] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem("Canvas", JSON.stringify(canvas))
+  }, [canvas])
+
+  const openDialog = async () => {
+    if (document.getElementsByClassName("warning-backdrop")) {
+      document.getElementsByClassName("warning-backdrop")[0].style.display = "block";
+    }
+  }
+
+  const closeDialog = async () => {
+    if (document.getElementsByClassName("warning-backdrop")) {
+      document.getElementsByClassName("warning-backdrop")[0].style.display = "none";
+    }
+  }
+
+  const checkCanvasExists = async () => {
+    if (user.canvasid == null || user.canvasid == "") {
+      alert("New canvas created");
+      registerCanvas();
+    } else {
+      openDialog();
+    }
+  }
+
+  const registerCanvas = async () => {
+    try {
+      const response = await axios.post(global.route + `/api/canvases`, {
+        userid: user._id,
+        eventData: "How might we " + hmw + " for " + forInput + " in order to " + iot,
+        understandData: state["Understand Event"],
+        refineData: state["Refine Event"],
+        exploreData: state["Explore Event"],
+        createData: state["Create Event"],
+        actionData: state["Action Event"],
+      }, { withCredentials: true });
+      setCanvas(response.data);
+
+      const response2 = await axios.put(global.route + `/api/users/profile`, {
+        canvasid: response.data._id,
+      }, { withCredentials: true })
+
+      localStorage.setItem("User", JSON.stringify(response2.data));
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const overwriteCanvas = async () => {
+    try {
+      closeDialog();
+
+      await axios.delete(global.route + `/api/canvases/${user.canvasid}`, { withCredentials: true });
+      localStorage.removeItem("Canvas");
+
+      const response2 = await axios.put(global.route + `/api/users/profile`, {
+        canvasid: "",
+      }, { withCredentials: true });
+      localStorage.setItem("User", JSON.stringify(response2.data));
+
+      registerCanvas();
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleNext = async () => {
+    if (isAtFirstStep) {
+      // get info from LLM
+
+      try {
+        setIsLoading(true);
+        let prompt = "How might we " + hmw + " for " + forInput + " in order to " + iot;
+        const response = await axios.post(global.llm + `/llm`, {
+          promptText: prompt,
+        }, { withCredentials: true });
+
+        // console.log(response.data.outputArr[0])
+        dispatch({ type: "textInput", payload: { key: "Understand Event", value: response.data.outputArr[0] } });
+        dispatch({ type: "textInput", payload: { key: "Refine Event", value: response.data.outputArr[1] } });
+        dispatch({ type: "textInput", payload: { key: "Explore Event", value: response.data.outputArr[2] } });
+        dispatch({ type: "textInput", payload: { key: "Create Event", value: response.data.outputArr[3] } });
+        dispatch({ type: "textInput", payload: { key: "Action Event", value: response.data.outputArr[4] } });
+
+      } catch (error) {
+        console.error(error);
+      }
+
+      setIsLoading(false);
+      dispatch({ type: "incrementStep" })
+    } else if (isAtLastStep) {
+      // create canvas
+
+      checkCanvasExists()
+    } else {
+      // next stage
+
+      dispatch({ type: "incrementStep" })
+    }
+
+    if (state.step >= state.stepProgress) {
+      setTimeout(() => {
+        const eventStep = eventSteps[state.step]
+        if (eventStep != undefined)
+          handleClickAiSuggestions(eventStep, state[eventStep.title])
+      }, 0);
+    }
+  }
+
+  const handleChange = async (eventStepTitle, evtValue, key) => {
+    if (key == "How might we") {
+      setHmw(evtValue)
+    } else if (key == "for") {
+      setForInput(evtValue)
+    } else if (key == "in order to") {
+      setIot(evtValue)
+    }
+
+    dispatch({
+      type: "textInput",
+      payload: {
+        keys: [eventStepTitle, key],
+        value: evtValue,
+      },
+    });
+  }
+
   return (
     <div className="w-full h-full p-1">
       <div className="w-full h-full p-6 bg-white">
         <div className="flex flex-col gap-8">
-          <h1 className="font-bold">
-            Generate {eventSteps[state.step - 1].title}
-          </h1>
+          <div style={{"display":"flex"}}>
+              <h1 className="font-bold">
+                Generate {eventSteps[state.step - 1].title}
+              </h1>
+              <div className="back-button" onClick={()=> navigate("/")} >
+                <BackIcon />
+              </div>
+          </div>
           <StatusBar step={state.step} maxSteps={6} />
           <div className="flex flex-row w-full gap-4">
             {eventSteps.map((eventStep, idx) => (
@@ -191,7 +343,7 @@ const DashboardFlow = () => {
                     <Button
                       className="bg-white !text-gray-800 text-sm !w-20"
                       label="AI"
-                      onClick={() => handleClickAiSuggestions(eventStep)}
+                      onClick={() => handleClickAiSuggestions(eventSteps[state.step - 1], state[eventStep.title])}
                       icon={
                         <img
                           src="/ai-icon.svg"
@@ -207,13 +359,7 @@ const DashboardFlow = () => {
                   {isAtFirstStep ? (
                     <ChallengeStatement
                       onChange={(evt, key) => {
-                        dispatch({
-                          type: "textInput",
-                          payload: {
-                            keys: [eventStep.title, key],
-                            value: evt.target.value,
-                          },
-                        });
+                        handleChange(eventStep.title, evt.target.value, key)
                       }}
                       value={state["Challenge Statement"]}
                     />
@@ -252,11 +398,44 @@ const DashboardFlow = () => {
                 }`}
               data={getJsonData()}
             />
+            {
+              isLoading == true ?
+                <RotatingLines
+                  strokeColor="rgba(0, 108, 253, 0.5)"
+                  strokeWidth="5"
+                  animationDuration="0.75"
+                  width="26"
+                  visible={true}
+                /> : ""
+            }
             <Button
               label={isAtLastStep ? "Execute" : "Next"}
               className="bg-primary-700 text-white"
-              onClick={() => dispatch({ type: "incrementStep" })}
-            />
+              // onClick={() => dispatch({ type: "incrementStep" })}
+              onClick={() => handleNext()}/>
+          </div>
+
+          <div className="warning-backdrop">
+            <div className="warning-container">
+              <text className="warning-heading">
+                Warning
+              </text>
+              <text className="warning-subheading">
+                Are you sure you want to create a new canvas?
+              </text>
+              <text className="warning-description">
+                This will overwrite your current data.
+              </text>
+
+              <div className="warning-action">
+                <button className="cancel-button" onClick={() => closeDialog()}>
+                  Cancel
+                </button>
+                <button className="continue-button" onClick={() => overwriteCanvas()}>
+                  Continue
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

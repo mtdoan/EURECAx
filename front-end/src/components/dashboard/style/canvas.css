@@ -1,3 +1,17 @@
+.canvas-backdrop {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 72px);
+}
+
+.diamonds {
+    position: absolute;
+
+    width: 75%;
+    height: 75%;
+    opacity: 0.1;
+}
+
 .canvas-container {
     width: 100%;
     height: calc(100vh - 72px);
@@ -30,7 +44,8 @@
 .grid-item {
     width: 16.66666%;
     height: 100%;
-    background-color: #F7F9FB;
+    /* background-color: #F7F9FB; */
+    background-color: (247, 249, 251, 1);
     border-width: 0.5px;
     border-color: black;
     padding-left: 8px;
@@ -38,12 +53,14 @@
     padding-right: 8px;
     overflow: hidden;
     cursor: pointer;
+    z-index: 1;
 }
 
 .grid-item-2 {
     width: 12.5%;
     height: 100%;
-    background-color: #F7F9FB;
+    /* background-color: #F7F9FB; */
+    background-color: (247, 249, 251, 1);
     border-width: 0.5px;
     border-color: black;
     padding-left: 8px;
@@ -51,12 +68,14 @@
     padding-right: 8px;
     overflow: hidden;
     text-align: center;
+    z-index: 1;
 }
 
 .grid-item-mvi {
     width: 25%;
     height: 100%;
-    background-color: #F7F9FB;
+    /* background-color: #F7F9FB; */
+    background-color: (247, 249, 251, 1);
     border-width: 0.5px;
     border-color: black;
     padding-left: 8px;
@@ -64,24 +83,28 @@
     padding-right: 8px;
     overflow: hidden;
     text-align: center;
+    z-index: 1;
 }
 
 .grid-item-wide {
     width: 50%;
     height: 100%;
-    background-color: #F7F9FB;
+    /* background-color: #F7F9FB; */
+    background-color: (247, 249, 251, 1);
     border-width: 0.5px;
     border-color: black;
     padding-left: 8px;
     padding-top: 6px;
     padding-right: 8px;
     overflow: hidden;
+    z-index: 1;
 }
 
 .grid-item-timings {
     width: 100%;
     height: 50%;
-    background-color: #F7F9FB;
+    /* background-color: #F7F9FB; */
+    background-color: (247, 249, 251, 1);
     border-width: 0.5px;
     border-color: black;
     padding-left: 8px;
@@ -89,6 +112,7 @@
     padding-right: 8px;
     overflow: hidden;
     text-align: center;
+    z-index: 1;
 }
 
 .item-title {
@@ -151,4 +175,13 @@
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
+}
+
+.back-button {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.back-button:hover {
+    cursor: pointer;
 }

@@ -14,6 +14,7 @@ import CanvasItemWide from "./CanvasItemWide";
 import KeyTimings from "./KeyTimings";
 
 import ChaosBadge from "../assets/square.png";
+import backdrop from "../assets/diamondsbackdrop.png";
 
 const Canvas = () => {
     const user = JSON.parse(localStorage.getItem("User"));
@@ -48,7 +49,7 @@ const Canvas = () => {
         loadCanvas();
     }, []);
 
-    const handleSave = async() => {
+    const handleSave = async () => {
         // Get the current time and update the state
         const now = new Date();
         const hours = now.getHours();
@@ -87,7 +88,7 @@ const Canvas = () => {
             updatedCreate = modalData;
         } else if (modalName == "ACTION") {
             updatedAction = modalData;
-        } 
+        }
 
         try {
             const response = await axios.put(global.route + `/api/canvases/info`, {
@@ -100,15 +101,15 @@ const Canvas = () => {
                 actionData: updatedAction,
             }, { withCredentials: true });
             localStorage.setItem("Canvas", JSON.stringify(response.data));
-        } catch(error) {
+        } catch (error) {
             console.error(error);
         }
         closeModal();
         window.location.reload(false);
     };
 
-    const setCanvasData = async(title) => {
-        if(title)
+    const setCanvasData = async (title) => {
+        if (title)
             setModalName(title);
 
         try {
@@ -130,9 +131,9 @@ const Canvas = () => {
                 setModalData(refineData)
             } else if (title == "EXPLORE") {
                 setModalData(exploreData)
-            } else if (title == "CREATE") {               
+            } else if (title == "CREATE") {
                 setModalData(createData)
-            } else if (title == "ACTION") {                
+            } else if (title == "ACTION") {
                 setModalData(actionData)
             }
         } catch {
@@ -159,9 +160,11 @@ const Canvas = () => {
 
     return (
         <>
-            {/* CANVAS */}
-
             <div className="canvas-container">
+                <div style={{"display":"flex", "justifyContent":"center", "zIndex":"-10"}}>
+                    <img src={backdrop} alt="Logo" className="diamonds" />
+                </div>
+
                 {/* ROW 1 */}
                 <div className="grid-row">
                     <CanvasItem onClick={() => openModal("EVENT")} title={"EVENT"} text={eventData} />
