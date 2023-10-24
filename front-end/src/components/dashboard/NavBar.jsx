@@ -1,14 +1,24 @@
 import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import axios from "axios";
 
 // style
 import "./style/navbar.css";
 import "./style/profiledropdown.css";
 import "./style/dialogs.css";
+import "./style/navbar.css";
+import "./style/profiledropdown.css";
+import "./style/dialogs.css";
 
 // assets
+// assets
 import SearchIcon from "./icons/searchIcon"
+import CommandIcon from "./icons/commandIcon"
+import ExecuteIcon from "./icons/executeIcon"
+
+import LogOut from "./icons/logOut"
 import CommandIcon from "./icons/commandIcon"
 import ExecuteIcon from "./icons/executeIcon"
 
@@ -18,9 +28,14 @@ const NavBar = () => {
     let navigate = useNavigate();
 
     const user = JSON.parse(localStorage.getItem("User"));
+    const [canvas, setCanvas] = useState("");
 
     const [dropdownStatus, setDropdownStatus] = useState(false);
     let menuref = useRef();
+
+    useEffect(() => {
+        localStorage.setItem("Canvas", JSON.stringify(canvas))
+    }, [canvas])
 
     useEffect(() => {
         let handler = (e) => {
@@ -65,9 +80,66 @@ const NavBar = () => {
         }
     };
 
-    const handleSubmit = async () => {
-        navigate("/new-project");
-        // start at check canvas submits
+    const openDialog = async () => {
+        if (document.getElementsByClassName("warning-backdrop")) {
+            document.getElementsByClassName("warning-backdrop")[0].style.display = "block";
+        }
+    }
+
+    const closeDialog = async () => {
+        if (document.getElementsByClassName("warning-backdrop")) {
+            document.getElementsByClassName("warning-backdrop")[0].style.display = "none";
+        }
+    }
+
+    const checkCanvasExists = async () => {
+        if (user.canvasid == null || user.canvasid == "") {
+            alert("New canvas created");
+            registerCanvas();
+        } else {
+            openDialog();
+        }
+    }
+    
+    const registerCanvas = async () => {
+        try {
+            const response = await axios.post(global.route + `/api/canvases`, {
+                userid: user._id,
+                eventData: "event",
+                understandData: "understand",
+                refineData: "refine",
+                exploreData: "explore",
+                createData: "create",
+                actionData: "action",
+            }, { withCredentials: true });
+            setCanvas(response.data);
+
+            const response2 = await axios.put(global.route + `/api/users/profile`, {
+                canvasid: response.data._id,
+            }, {withCredentials: true})
+            localStorage.setItem("User", JSON.stringify(response2.data));
+            window.location.reload(false);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const overwriteCanvas = async () => {
+        try {
+            closeDialog();
+
+            await axios.delete(global.route + `/api/canvases/${user.canvasid}`, { withCredentials: true });
+            localStorage.removeItem("Canvas");
+
+            const response2 = await axios.put(global.route + `/api/users/profile`, {
+                canvasid: "",
+            }, { withCredentials: true });
+            localStorage.setItem("User", JSON.stringify(response2.data));
+
+            registerCanvas();
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     return (
@@ -86,7 +158,7 @@ const NavBar = () => {
                 </form>
 
                 <div className="execute-container">
-                    <button className="execute-button" onClick={() => {handleSubmit()}}>
+                    <button className="execute-button" onClick={() => {checkCanvasExists()}}>
                         <div className="execute-inner">
                             <div className="execute-icon">
                                 <ExecuteIcon />
@@ -107,6 +179,29 @@ const NavBar = () => {
 
                     <div className={`dropdown-menu ${dropdownStatus ? 'active' : 'inactive'}`}>
                         <LogoutButton />
+                    </div>
+                </div>
+            </div>
+
+            <div className="warning-backdrop">
+                <div className="warning-container">
+                    <text className="warning-heading">
+                        Warning
+                    </text>
+                    <text className="warning-subheading">
+                        Are you sure you want to create a new canvas?
+                    </text>
+                    <text className="warning-description">
+                        This will overwrite your current data.
+                    </text>
+
+                    <div className="warning-action">
+                        <button className="cancel-button" onClick={()=>closeDialog()}>
+                            Cancel
+                        </button>
+                        <button className="continue-button" onClick={()=>overwriteCanvas()}> 
+                            Continue
+                        </button>
                     </div>
                 </div>
             </div>
