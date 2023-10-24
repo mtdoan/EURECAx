@@ -2,14 +2,19 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+import LoadingCircle from "components/shared/LoadingCircle";
+
 export default function SignIn() {
   let navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       const response = await axios.post(
@@ -25,6 +30,7 @@ export default function SignIn() {
     } catch (error) {
       console.error(error);
     }
+    setIsLoading(false);
   };
 
   const signUp = async (e) => {
@@ -34,6 +40,7 @@ export default function SignIn() {
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+        {isLoading ? <LoadingCircle /> : ""}
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           {/* <img
                         className="mx-auto h-10 w-auto"
