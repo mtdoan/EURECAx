@@ -44,6 +44,11 @@ const UserSchema = new mongoose.Schema({
         type: String,
         require: true,
         default: ""
+    },
+    bio: {
+        type: String,
+        require: [true, "No bio set"],
+        default: "I am a new user of EurecaX."
     }
 })
 
