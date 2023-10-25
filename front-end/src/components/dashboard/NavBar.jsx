@@ -6,11 +6,13 @@ import axios from "axios";
 import "./style/navbar.css";
 import "./style/profiledropdown.css";
 import "./style/dialogs.css";
+import "../shared/loading-circle.css"
 
 // assets
 import SearchIcon from "./icons/searchIcon"
 import CommandIcon from "./icons/commandIcon"
 import ExecuteIcon from "./icons/executeIcon"
+import LoadingCircle from "components/shared/LoadingCircle";
 
 import LogOut from "./icons/logOut"
 
@@ -19,6 +21,7 @@ const NavBar = () => {
 
     const user = JSON.parse(localStorage.getItem("User"));
 
+    const [isLoading, setIsLoading] = useState(false);
     const [dropdownStatus, setDropdownStatus] = useState(false);
     let menuref = useRef();
 
@@ -59,6 +62,7 @@ const NavBar = () => {
     }
 
     const logout = async () => {
+        setIsLoading(true);
         try {
             const response = await fetch(global.route + `/api/users/logout`, {
                 method: "POST",
@@ -74,6 +78,7 @@ const NavBar = () => {
         } catch (err) {
             //console.log(err);
         }
+        setIsLoading(false);
     };
 
     const goProfile = async () => {
@@ -88,8 +93,9 @@ const NavBar = () => {
     return (
         <>
             <div className="navbar-container">
+                {isLoading ? <LoadingCircle /> : ""}
                 <form className="searchbar">
-                    <div class="icon">
+                    <div className="icon">
                         <SearchIcon />
                     </div>
                     <input className="search-input" placeholder="Search">

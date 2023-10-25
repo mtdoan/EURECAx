@@ -13,6 +13,7 @@
     align-items: center;
     flex-direction: column;
 
+
     color: black;
 }
 
@@ -31,7 +32,7 @@
 }
 
 .logo__container.closed {
-    
+
     width: 180px;
     display: flex;
     align-items: center;
@@ -43,7 +44,7 @@
 
 
 .menu.active {
-    
+
     width: 212px;
     z-index: 1;
 }
@@ -51,7 +52,7 @@
 .menu.collapsed {
     width: 81px;
     z-index: 1;
-    
+
 }
 
 .menu__item--container.opened {
@@ -67,6 +68,11 @@
     width: 100%;
 }
 
+.menu__item--container {
+    padding-left: 12px;
+    border-radius: 12px;
+}
+
 .menu__item.opened {
     width: 80%;
 
@@ -77,7 +83,7 @@
     padding-left: 12px;
     margin-bottom: 4px;
     margin: 0 auto;
-    
+
 }
 
 .menu__item.closed {
@@ -89,7 +95,8 @@
     align-items: center;
 
     justify-content: center;
-
+    padding-right: 7px;
+    margin-right: 21px;
 }
 
 .menu__item:hover {
@@ -101,21 +108,20 @@
 
 .menu__item.closed:hover {
     cursor: pointer;
-    background-color: rgba(28, 28, 28, 0.1); 
+    background-color: rgba(28, 28, 28, 0.1);
 }
 
 .menu__item--svg-container {
-    padding: 10px;
+    margin-left: 12px;
 
 }
 
-.menu__item--svg {
-
-}
+.menu__item--svg {}
 
 .menu__item--name.opened {
     font-size: 14px;
     font-weight: 400;
+    margin-left: 4px;
 }
 
 .menu__item--name.closed {
@@ -126,11 +132,25 @@
 /* CSS */
 .rotateButton {
     transition: transform 300ms ease;
-    transform: rotate(-180deg); 
-  }
-  
-  .rotateButton.rotated {
-    transform: rotate(0deg); 
-  }
-  
-  
+    transform: rotate(-180deg);
+}
+
+.rotateButton.rotated {
+    transform: rotate(0deg);
+}
+
+.selected-bar {
+    width: 5px;
+    height: 21px;
+    /* background-color: black; */
+    border-radius: 10px;
+    margin-left: -11px;
+}
+
+.selected-bar-opened {
+    width: 5px;
+    height: 21px;
+    background-color: black;
+    border-radius: 10px;
+    margin-left: -11px;
+}

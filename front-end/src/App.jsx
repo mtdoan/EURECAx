@@ -8,29 +8,17 @@ import Dashboard from "./components/dashboard/Dashboard";
 import DashboardFlow from "components/DashboardFlow";
 import Canvas from "components/dashboard/canvas/Canvas";
 import ProfileCard from "components/dashboard/ProfileCard";
+import ProfileCard from "components/dashboard/ProfileCard";
 
 import PrivateRoute from "navigation/PrivateRoute";
 import PublicRoute from 'navigation/PublicRoute';
 
 function App() {
+  global.route = "https://eurecax-api-vercel.vercel.app"; // eurecax-api-vercel.vercel.app or http://localhost:3000
   global.route = "eurecax-api-vercel.vercel.app"; // eurecax-api-vercel.vercel.app or http://localhost:3000
   global.llm = "http://localhost:4000" // https://chaos1-llm.vercel.app or http://localhost:4000
 
   return (
-    // <Router>
-    //   <Routes>
-    //     <Route path="/" element={<Dashboard/>}>
-    //       <Route index element={<Canvas />} />
-    //     </Route>
-    //     <Route path="/dashboard" element={<Dashboard />}>
-    //       <Route index element={<Canvas />} />
-    //     </Route>
-    //     <Route path="/new-project" element={<DashboardFlow />} />
-    //     <Route path="/signIn" element={<SignIn />} />
-    //     <Route path="/signUp" element={<SignUp />} />
-    //   </Routes>
-    // </Router>
-
     <Router>
       <Fragment>
         <Routes>
@@ -47,6 +35,11 @@ function App() {
           <Route exact path='/new-project' element={<PrivateRoute />}>
             <Route exact path='/new-project' element={<DashboardFlow />} />
           </Route>
+
+          <Route exact path='/profile' element={<PrivateRoute />}>
+            <Route exact path="/profile" element={<ProfileCard />}/>
+          </Route>
+          
 
           <Route exact path='/profile' element={<PrivateRoute />}>
             <Route exact path="/profile" element={<ProfileCard />}/>
