@@ -95,7 +95,8 @@
     align-items: center;
 
     justify-content: center;
-
+    padding-right: 7px;
+    margin-right: 21px;
 }
 
 .menu__item:hover {
