@@ -7,6 +7,7 @@ import SignUp from "./components/auth/SignUp";
 import Dashboard from "./components/dashboard/Dashboard";
 import DashboardFlow from "components/DashboardFlow";
 import Canvas from "components/dashboard/canvas/Canvas";
+import ProfileCard from "components/dashboard/ProfileCard";
 
 import PrivateRoute from "navigation/PrivateRoute";
 import PublicRoute from 'navigation/PublicRoute';
@@ -33,6 +34,10 @@ function App() {
             <Route exact path='/new-project' element={<DashboardFlow />} />
           </Route>
 
+          <Route exact path='/profile' element={<PrivateRoute />}>
+            <Route exact path="/profile" element={<ProfileCard />}/>
+          </Route>
+          
           <Route exact path='/signUp' element={<PublicRoute />}>
             <Route exact path='/signUp' element={<SignUp />} />
           </Route>

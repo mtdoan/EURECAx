@@ -50,6 +50,17 @@ const NavBar = () => {
         )
     }
 
+    function ProfileButton() {
+        return (
+            <li className='profileButton' onClick={()=> goProfile()}>
+            <div>
+
+            </div>
+            <a>Profile</a>
+            </li>
+        )
+    }
+
     const logout = async () => {
         setIsLoading(true);
         try {
@@ -69,6 +80,10 @@ const NavBar = () => {
         }
         setIsLoading(false);
     };
+
+    const goProfile = async () => {
+        navigate("profile");
+    }
 
     const handleSubmit = async () => {
         navigate("/new-project");
@@ -112,6 +127,7 @@ const NavBar = () => {
                     <h4 className="profile-name"> {user.firstname} </h4>
 
                     <div className={`dropdown-menu ${dropdownStatus ? 'active' : 'inactive'}`}>
+                        <ProfileButton/>
                         <LogoutButton />
                     </div>
                 </div>
