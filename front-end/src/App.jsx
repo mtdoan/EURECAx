@@ -7,7 +7,7 @@ import SignUp from "./components/auth/SignUp";
 import Dashboard from "./components/dashboard/Dashboard";
 import DashboardFlow from "components/DashboardFlow";
 import Canvas from "components/dashboard/canvas/Canvas";
-import ProfileCard from "components/dashboard/ProfileCard";
+import ProfileCard from "components/dashboard/ProfileCard"; 
 
 import PrivateRoute from "navigation/PrivateRoute";
 import PublicRoute from 'navigation/PublicRoute';
