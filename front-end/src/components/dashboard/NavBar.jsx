@@ -47,6 +47,17 @@ const NavBar = () => {
         )
     }
 
+    function ProfileButton() {
+        return (
+            <li className='profileButton' onClick={()=> goProfile()}>
+            <div>
+
+            </div>
+            <a>Profile</a>
+            </li>
+        )
+    }
+
     const logout = async () => {
         try {
             const response = await fetch(global.route + `/api/users/logout`, {
@@ -64,6 +75,10 @@ const NavBar = () => {
             //console.log(err);
         }
     };
+
+    const goProfile = async () => {
+        navigate("profile");
+    }
 
     const handleSubmit = async () => {
         navigate("/new-project");
@@ -106,6 +121,7 @@ const NavBar = () => {
                     <h4 className="profile-name"> {user.firstname} </h4>
 
                     <div className={`dropdown-menu ${dropdownStatus ? 'active' : 'inactive'}`}>
+                        <ProfileButton/>
                         <LogoutButton />
                     </div>
                 </div>

@@ -12,6 +12,7 @@ export default function SignIn() {
     const [password, setPassword] = useState("");
     const [isAdmin, setIsAdmin] = useState(false);
     const [canvasid, setCanvasId] = useState("");
+    const [bio, setBio] = useState("Hi, I am a new user.");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,6 +26,7 @@ export default function SignIn() {
                 password: password,
                 isAdmin: isAdmin,
                 canvasid: canvasid,
+                bio: bio,
             }, { withCredentials: true });
             localStorage.setItem("User", JSON.stringify(response.data));
             navigate("/", { replace: true });
@@ -168,7 +170,7 @@ export default function SignIn() {
                     </form>
 
                     <p className="mt-10 text-center text-sm text-gray-500">
-                        Have an accout?{' '}
+                        Have an account?{' '}
                         <a
                             onClick={(e) => signIn(e)}
                             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
