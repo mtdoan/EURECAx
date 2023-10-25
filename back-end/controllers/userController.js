@@ -34,6 +34,7 @@ const authUser = asyncHandler(async (req, res) => {
 // @access Public
 const registerUser = asyncHandler(async (req, res) => {
     const { username, firstname, lastname, email, password, isAdmin, canvasid, bio } = req.body;
+    console.log("bio is " + bio)
     console.log( "CANVAS ID " + canvasid );
 
     const userExists = await User.findOne({ email });
