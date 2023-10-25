@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-
-// style
 import "./style/hamburgerMenu.css";
 
 //Assets
@@ -16,17 +13,36 @@ import LearnIcon from "./assets/learnIcon";
 import ResizeButton from "./assets/resizeButton";
 
 const HamburgerMenu = () => {
-  let navigate = useNavigate();
+
 
   const [expanded, setExpanded] = useState(true);
+  const [activeButton, setActiveButton] = useState(null);
 
   const toggleSidebar = () => {
     setExpanded(!expanded);
     const resizeButton = document.getElementById("resizeButton");
-
-    // Toggle the 'rotated' class to trigger the rotation animation
     resizeButton.classList.toggle("rotated");
-  }
+  };
+
+  const handleButtonClick = (index) => {
+
+    if (activeButton !== null) {
+      const prevButton = document.getElementById(`menu-item-${activeButton}`);
+      prevButton.style.backgroundColor = "";
+    } //this reset previous button if clicked
+
+    // Change the background color of the clicked button
+    const currentButton = document.getElementById(`menu-item-${index}`);
+    currentButton.style.backgroundColor =
+      currentButton.style.backgroundColor === "" ? "rgba(28, 28, 28, 0.1)" : "";
+      currentButton.style.borderRadius = "8px";
+    //this change current  button background if clicked
+
+    setActiveButton(index);
+  };
+
+
+
 
 
   return (
@@ -35,78 +51,88 @@ const HamburgerMenu = () => {
         <div className={`logo__container ${expanded ? 'opened' : 'closed'}`}>
           <figure className="logo__container--holder">
             {expanded ? (
-              <Choas1IconFull id="logo"/>
+              <Choas1IconFull id="logo" />
             ) : (
               <Choas1Icon />
             )}
           </figure>
 
           <button
-            
             className={`resizeButton ${expanded ? 'opened' : 'closed'} rotateButton`}
-            onClick={toggleSidebar}
-            >
-              <ResizeButton id="resizeButton" className="rotateButton" ></ResizeButton>
+            onClick={toggleSidebar}>
+            <ResizeButton id="resizeButton" className="rotateButton" ></ResizeButton>
           </button>
 
         </div>
 
         <div className="container">
-          
-        <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
+          <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
             <Link to="">
-              <div 
-                className={`menu__item ${expanded ? 'opened' : 'closed'}`} 
-                type="button">
+              <button
+                id="menu-item-1"
+                className={`menu__item ${expanded ? 'opened' : 'closed'}`}
+                type="button"
+                onClick={() => handleButtonClick(1)}
+              >
+                <div className={`selected-bar${activeButton === 1 ? '-opened' : ''}`}/>
                 <div className="menu__item--svg-container">
                   <DashboardIcon className="menu__item--svg" />
                 </div>
                 <p className={`menu__item--name ${expanded ? 'opened' : 'closed'}`}>Dashboard</p>
-              </div>
+              </button>
             </Link>
           </div>
 
-        <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
+          <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
             <Link to="">
-              <div 
-                className={`menu__item ${expanded ? 'opened' : 'closed'}`} 
-                type="button">
+              <button
+                id="menu-item-2"
+                className={`menu__item ${expanded ? 'opened' : 'closed'}`}
+                type="button"
+                onClick={() => handleButtonClick(2)}
+              >
+                <div className={`selected-bar${activeButton === 2 ? '-opened' : ''}`} />
                 <div className="menu__item--svg-container">
                   <DocumentsIcon className="menu__item--svg" />
                 </div>
                 <p className={`menu__item--name ${expanded ? 'opened' : 'closed'}`}>Documents</p>
-              </div>
+              </button>
             </Link>
           </div>
 
-        <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
+          <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
             <Link to="">
-              <div 
-                className={`menu__item ${expanded ? 'opened' : 'closed'}`} 
-                type="button">
+              <button
+                id="menu-item-3"
+                className={`menu__item ${expanded ? 'opened' : 'closed'}`}
+                type="button"
+                onClick={() => handleButtonClick(3)}
+              >
+                <div className={`selected-bar${activeButton === 3 ? '-opened' : ''}`} />
                 <div className="menu__item--svg-container">
                   <ConnectIcon className="menu__item--svg" />
                 </div>
                 <p className={`menu__item--name ${expanded ? 'opened' : 'closed'}`}>Connect</p>
-              </div>
+              </button>
             </Link>
           </div>
 
-        <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
+          <div className={`menu__item--container ${expanded ? 'opened' : 'closed'}`}>
             <Link to="">
-              <div 
-                className={`menu__item ${expanded ? 'opened' : 'closed'}`} 
-                type="button">
+              <button
+                id="menu-item-4"
+                className={`menu__item ${expanded ? 'opened' : 'closed'}`}
+                type="button"
+                onClick={() => handleButtonClick(4)}
+              >
+                <div className={`selected-bar${activeButton === 4 ? '-opened' : ''}`} />
                 <div className="menu__item--svg-container">
                   <LearnIcon className="menu__item--svg" />
                 </div>
                 <p className={`menu__item--name ${expanded ? 'opened' : 'closed'}`}>Learn</p>
-              </div>
+              </button>
             </Link>
           </div>
-
-
-
 
         </div>
       </div>

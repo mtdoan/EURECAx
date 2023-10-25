@@ -16,12 +16,16 @@ import KeyTimings from "./KeyTimings";
 import ChaosBadge from "../assets/square.png";
 import backdrop from "../assets/diamondsbackdrop.png";
 
+import LoadingCircle from "components/shared/LoadingCircle";
+
 const Canvas = () => {
     const user = JSON.parse(localStorage.getItem("User"));
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [savedTime, setSavedTime] = useState("");
     const [savedDate, setSavedDate] = useState("");
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const divStyle = { display: isModalOpen ? 'block' : 'none' }
 
@@ -41,7 +45,7 @@ const Canvas = () => {
             localStorage.setItem("Canvas", JSON.stringify(response.data));
             setCanvasData();
         } catch (error) {
-            console.error(error);
+            console.warn(error);
         }
     }
 
@@ -90,6 +94,7 @@ const Canvas = () => {
             updatedAction = modalData;
         }
 
+        setIsLoading(true);
         try {
             const response = await axios.put(global.route + `/api/canvases/info`, {
                 canvasId: user.canvasid,
@@ -104,6 +109,7 @@ const Canvas = () => {
         } catch (error) {
             console.error(error);
         }
+        setIsLoading(false);
         closeModal();
         window.location.reload(false);
     };
@@ -161,6 +167,7 @@ const Canvas = () => {
     return (
         <>
             <div className="canvas-container">
+                {isLoading ? <LoadingCircle /> : ""}
                 <div style={{"display":"flex", "justifyContent":"center", "zIndex":"-10"}}>
                     <img src={backdrop} alt="Logo" className="diamonds" />
                 </div>
@@ -233,7 +240,7 @@ const Canvas = () => {
                                     <text className="modal-title">{modalName}</text>
                                 </div>
 
-                                <textarea className="modal-textbox" spellcheck="false" defaultValue={modalData} onChange={updateModal}>
+                                <textarea className="modal-textbox" spellCheck="false" defaultValue={modalData} onChange={updateModal}>
                                 </textarea>
                             </div>
                         </div>

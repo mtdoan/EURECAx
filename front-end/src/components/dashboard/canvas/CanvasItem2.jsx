@@ -17,7 +17,7 @@ const CanvasItem2 = (props) => {
                 <div className="scroll-box">
                     <div className="scroll-box__wrapper">
                         <div className="scroll-box__container" role="list">
-                            <text className="textbox" spellcheck="false">
+                            <text className="textbox" spellCheck="false">
                                 {props.text}
                             </text>
                         </div>

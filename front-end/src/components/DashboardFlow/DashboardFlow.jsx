@@ -12,6 +12,8 @@ import { generateText } from "util/sampleData";
 import { ExportJsonLink } from "components/shared";
 import BackIcon from "../dashboard/icons/backIcon";
 
+import LoadingCircle from "components/shared/LoadingCircle";
+
 const eventSteps = [
   {
     title: "Challenge Statement",
@@ -197,7 +199,6 @@ const DashboardFlow = () => {
 
   const checkCanvasExists = async () => {
     if (user.canvasid == null || user.canvasid == "") {
-      alert("New canvas created");
       registerCanvas();
     } else {
       openDialog();
@@ -205,6 +206,7 @@ const DashboardFlow = () => {
   }
 
   const registerCanvas = async () => {
+    setIsLoading(true);
     try {
       const response = await axios.post(global.route + `/api/canvases`, {
         userid: user._id,
@@ -217,7 +219,7 @@ const DashboardFlow = () => {
       }, { withCredentials: true });
       setCanvas(response.data);
 
-      const response2 = await axios.put(global.route + `/api/users/profile`, {
+      const response2 = await axios.put(global.route + `/api/users/${user._id}`, {
         canvasid: response.data._id,
       }, { withCredentials: true })
 
@@ -226,32 +228,42 @@ const DashboardFlow = () => {
     } catch (error) {
       console.error(error);
     }
+    setIsLoading(false);
   };
 
   const overwriteCanvas = async () => {
+    setIsLoading(true);
+
     try {
       closeDialog();
 
       await axios.delete(global.route + `/api/canvases/${user.canvasid}`, { withCredentials: true });
       localStorage.removeItem("Canvas");
 
-      const response2 = await axios.put(global.route + `/api/users/profile`, {
+      const response = await axios.put(global.route + `/api/users/${user._id}`, {
         canvasid: "",
       }, { withCredentials: true });
-      localStorage.setItem("User", JSON.stringify(response2.data));
+      localStorage.setItem("User", JSON.stringify(response.data));
 
       registerCanvas();
     } catch (error) {
-      console.error(error)
+
+      const response = await axios.put(global.route + `/api/users/${user._id}`, {
+        canvasid: "",
+      }, { withCredentials: true });
+      localStorage.setItem("User", JSON.stringify(response.data));
+      registerCanvas();
+      
+      console.warn(error)
     }
+    setIsLoading(false);
   }
 
   const handleNext = async () => {
     if (isAtFirstStep) {
       // get info from LLM
-
+      setIsLoading(true);
       try {
-        setIsLoading(true);
         let prompt = "How might we " + hmw + " for " + forInput + " in order to " + iot;
         const response = await axios.post(global.llm + `/llm`, {
           promptText: prompt,
@@ -309,6 +321,7 @@ const DashboardFlow = () => {
 
   return (
     <div className="w-full h-full p-1">
+      {isLoading ? <LoadingCircle /> : ""}
       <div className="w-full h-full p-6 bg-white">
         <div className="flex flex-col gap-8">
           <div style={{"display":"flex"}}>
@@ -398,7 +411,7 @@ const DashboardFlow = () => {
                 }`}
               data={getJsonData()}
             />
-            {
+            {/* {
               isLoading == true ?
                 <RotatingLines
                   strokeColor="rgba(0, 108, 253, 0.5)"
@@ -407,7 +420,7 @@ const DashboardFlow = () => {
                   width="26"
                   visible={true}
                 /> : ""
-            }
+            } */}
             <Button
               label={isAtLastStep ? "Execute" : "Next"}
               className="bg-primary-700 text-white"
