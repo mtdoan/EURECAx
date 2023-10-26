@@ -106,7 +106,7 @@ const NavBar = () => {
                     </button>
                 </form>
 
-                <div className="execute-container">
+                <div>
                     <button className="execute-button" onClick={() => {handleSubmit()}}>
                         <div className="execute-inner">
                             <div className="execute-icon">
