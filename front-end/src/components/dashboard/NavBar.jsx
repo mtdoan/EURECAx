@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 // style
 import "./style/navbar.css";
 import "./style/profiledropdown.css";
 import "./style/dialogs.css";
-import "../shared/loading-circle.css"
+import "../shared/loading-circle.css";
 
 // assets
-import SearchIcon from "./icons/searchIcon"
-import CommandIcon from "./icons/commandIcon"
-import ExecuteIcon from "./icons/executeIcon"
+import SearchIcon from "./icons/searchIcon";
+import CommandIcon from "./icons/commandIcon";
+import ExecuteIcon from "./icons/executeIcon";
 import LoadingCircle from "components/shared/LoadingCircle";
 
-import LogOut from "./icons/logOut"
+import LogOut from "./icons/logOut";
+import Profile from "./icons/profile";
 
 const NavBar = () => {
     let navigate = useNavigate();
@@ -39,6 +39,17 @@ const NavBar = () => {
         }
     });
 
+    function ProfileButton() {
+        return (
+            <li className='dropdownItem' onClick={() => goProfile()}>
+                <div className='child2'>
+                    <Profile />
+                </div>
+                <span className='child2'> Profile</span>
+            </li>
+        )
+    }
+
     function LogoutButton() {
         return (
             <li className='dropdownItem' onClick={() => logout()}>
@@ -46,17 +57,6 @@ const NavBar = () => {
                     <LogOut />
                 </div>
                 <a className='child'> Log out</a>
-            </li>
-        )
-    }
-
-    function ProfileButton() {
-        return (
-            <li className='profileButton' onClick={()=> goProfile()}>
-            <div>
-
-            </div>
-            <a>Profile</a>
             </li>
         )
     }
@@ -87,7 +87,6 @@ const NavBar = () => {
 
     const handleSubmit = async () => {
         navigate("/new-project");
-        // start at check canvas submits
     }
 
     return (

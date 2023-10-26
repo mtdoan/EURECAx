@@ -90,9 +90,10 @@
     border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
+/* buttons */
 .dropdownItem {
     display: flex;
-    margin: 10px auto;
+    margin: 12px auto;
 }
 
 .dropdownItem div {
@@ -112,4 +113,15 @@
     opacity: 1;
     cursor: pointer;
     color: #ff0000;
+}
+
+.dropdownItem span {
+    opacity: 0.75;
+    transition: 100ms;
+    color: #222222;
+}
+
+.dropdownItem:hover .child2 {
+    opacity: 1;
+    cursor: pointer;
 }
