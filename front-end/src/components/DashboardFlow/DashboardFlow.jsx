@@ -261,7 +261,7 @@ const DashboardFlow = () => {
 
   const handleNext = async () => {
     if (isAtFirstStep) {
-      // get info from LLM
+      state.stepProgress = 1;
       setIsLoading(true);
       try {
         let prompt = "How might we " + hmw + " for " + forInput + " in order to " + iot;

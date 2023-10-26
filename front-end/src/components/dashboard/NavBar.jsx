@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 // style
 import "./style/navbar.css";
 import "./style/profiledropdown.css";
 import "./style/dialogs.css";
-import "../shared/loading-circle.css"
+import "../shared/loading-circle.css";
 
 // assets
-import SearchIcon from "./icons/searchIcon"
-import CommandIcon from "./icons/commandIcon"
-import ExecuteIcon from "./icons/executeIcon"
+import SearchIcon from "./icons/searchIcon";
+import CommandIcon from "./icons/commandIcon";
+import ExecuteIcon from "./icons/executeIcon";
 import LoadingCircle from "components/shared/LoadingCircle";
 
-import LogOut from "./icons/logOut"
+import LogOut from "./icons/logOut";
+import Profile from "./icons/profile";
 
 const NavBar = () => {
     let navigate = useNavigate();
@@ -22,6 +22,7 @@ const NavBar = () => {
     const user = JSON.parse(localStorage.getItem("User"));
 
     const [isLoading, setIsLoading] = useState(false);
+
     const [dropdownStatus, setDropdownStatus] = useState(false);
     let menuref = useRef();
 
@@ -39,6 +40,17 @@ const NavBar = () => {
         }
     });
 
+    function ProfileButton() {
+        return (
+            <li className='dropdownItem' onClick={() => goProfile()}>
+                <div className='child2'>
+                    <Profile />
+                </div>
+                <span className='child2'> Profile</span>
+            </li>
+        )
+    }
+
     function LogoutButton() {
         return (
             <li className='dropdownItem' onClick={() => logout()}>
@@ -46,17 +58,6 @@ const NavBar = () => {
                     <LogOut />
                 </div>
                 <a className='child'> Log out</a>
-            </li>
-        )
-    }
-
-    function ProfileButton() {
-        return (
-            <li className='profileButton' onClick={()=> goProfile()}>
-            <div>
-
-            </div>
-            <a>Profile</a>
             </li>
         )
     }
@@ -87,7 +88,6 @@ const NavBar = () => {
 
     const handleSubmit = async () => {
         navigate("/new-project");
-        // start at check canvas submits
     }
 
     return (
@@ -105,15 +105,15 @@ const NavBar = () => {
                         <CommandIcon />
                     </button>
                 </form>
-
-                <div className="execute-container">
-                    <button className="execute-button" onClick={() => {handleSubmit()}}>
+                
+                <div>
+                    <button className="execute-button" onClick={() => { handleSubmit() }}>
                         <div className="execute-inner">
                             <div className="execute-icon">
                                 <ExecuteIcon />
                             </div>
                             <div className="execute-text">
-                                Execute with AI
+                                AI Pulse
                             </div>
                         </div>
                     </button>
@@ -121,13 +121,13 @@ const NavBar = () => {
 
                 <div className="profile-menu" ref={menuref} onClick={() => { setDropdownStatus(!dropdownStatus) }}>
                     <div className="profile-in">
-                        {user.firstname.charAt(0)}{user.lastname.charAt(0)}{" "}
+                        {user?.firstname && user?.lastname ? user.firstname.charAt(0) + user.lastname.charAt(0) : ''}
                     </div>
 
-                    <h4 className="profile-name"> {user.firstname} </h4>
+                    <h4 className="profile-name"> {user?.firstname ? user.firstname : ''} </h4>
 
                     <div className={`dropdown-menu ${dropdownStatus ? 'active' : 'inactive'}`}>
-                        <ProfileButton/>
+                        <ProfileButton />
                         <LogoutButton />
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./style/hamburgerMenu.css";
 
@@ -13,10 +13,8 @@ import LearnIcon from "./assets/learnIcon";
 import ResizeButton from "./assets/resizeButton";
 
 const HamburgerMenu = () => {
-
-
   const [expanded, setExpanded] = useState(true);
-  const [activeButton, setActiveButton] = useState(null);
+  const [activeButton, setActiveButton] = useState(1);
 
   const toggleSidebar = () => {
     setExpanded(!expanded);
@@ -40,10 +38,9 @@ const HamburgerMenu = () => {
 
     setActiveButton(index);
   };
-
-
-
-
+  useEffect(() => {
+    handleButtonClick(1);
+  }, []);
 
   return (
     <>
