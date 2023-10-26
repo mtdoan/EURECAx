@@ -131,7 +131,7 @@ const updateUser = asyncHandler(async (req, res) => {
             _id: updatedUser._id,
             username: updatedUser.username,
             firstname: updatedUser.username,
-            firstname: updatedUser.lastname,
+            lastname: updatedUser.lastname,
             email: updatedUser.email,
             isAdmin: updatedUser.isAdmin,
             canvasid: updatedUser.canvasid,

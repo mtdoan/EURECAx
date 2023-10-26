@@ -22,6 +22,7 @@ const NavBar = () => {
     const user = JSON.parse(localStorage.getItem("User"));
 
     const [isLoading, setIsLoading] = useState(false);
+
     const [dropdownStatus, setDropdownStatus] = useState(false);
     let menuref = useRef();
 
@@ -120,10 +121,10 @@ const NavBar = () => {
 
                 <div className="profile-menu" ref={menuref} onClick={() => { setDropdownStatus(!dropdownStatus) }}>
                     <div className="profile-in">
-                        {user.firstname.charAt(0)}{user.lastname.charAt(0)}{" "}
+                        {user?.firstname && user?.lastname ? user.firstname.charAt(0) + user.lastname.charAt(0) : '' }
                     </div>
 
-                    <h4 className="profile-name"> {user.firstname} </h4>
+                    <h4 className="profile-name"> {user?.firstname ? user.firstname : ''} </h4>
 
                     <div className={`dropdown-menu ${dropdownStatus ? 'active' : 'inactive'}`}>
                         <ProfileButton/>
