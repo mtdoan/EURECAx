@@ -4,7 +4,6 @@ const {
     registerUser,
     logoutUser,
     getUserProfile,
-    updateUserProfile,
     getUsers,
     deleteUser,
     getUserById,
@@ -21,12 +20,11 @@ router.post('/logout', protect, logoutUser);
 router
     .route('/profile')
     .get(protect, getUserProfile)
-    .put(protect, updateUserProfile);
 
 router
     .route('/:id')
     .delete(protect, admin, deleteUser)
     .get(protect, getUserById)
-    .put(protect, updateUser);
+    .put(updateUser);
 
 module.exports = router;
