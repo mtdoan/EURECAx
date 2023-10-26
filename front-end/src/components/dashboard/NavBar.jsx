@@ -105,15 +105,15 @@ const NavBar = () => {
                         <CommandIcon />
                     </button>
                 </form>
-
+                
                 <div>
-                    <button className="execute-button" onClick={() => {handleSubmit()}}>
+                    <button className="execute-button" onClick={() => { handleSubmit() }}>
                         <div className="execute-inner">
                             <div className="execute-icon">
                                 <ExecuteIcon />
                             </div>
                             <div className="execute-text">
-                                Execute with AI
+                                AI Pulse
                             </div>
                         </div>
                     </button>
@@ -121,13 +121,13 @@ const NavBar = () => {
 
                 <div className="profile-menu" ref={menuref} onClick={() => { setDropdownStatus(!dropdownStatus) }}>
                     <div className="profile-in">
-                        {user?.firstname && user?.lastname ? user.firstname.charAt(0) + user.lastname.charAt(0) : '' }
+                        {user?.firstname && user?.lastname ? user.firstname.charAt(0) + user.lastname.charAt(0) : ''}
                     </div>
 
                     <h4 className="profile-name"> {user?.firstname ? user.firstname : ''} </h4>
 
                     <div className={`dropdown-menu ${dropdownStatus ? 'active' : 'inactive'}`}>
-                        <ProfileButton/>
+                        <ProfileButton />
                         <LogoutButton />
                     </div>
                 </div>

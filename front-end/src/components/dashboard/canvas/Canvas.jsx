@@ -184,7 +184,7 @@ const Canvas = () => {
 
                 {/* ROW 2 */}
                 <div className="grid-row">
-                    <CanvasItem title={"INNOVATION WNGO"} text={""} />
+                    <CanvasItem title={"Backlog"} text={""} />
 
                     <div className="grid-inner">
                         <div className="grid-inner-row">
@@ -205,7 +205,7 @@ const Canvas = () => {
                         <KeyTimings />
                     </div>
 
-                    <CanvasItem title={"INNOVATION OGRP"} text={""} />
+                    <CanvasItem title={"Deliverables"} text={""} />
                 </div>
             </div>
 
