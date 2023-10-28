@@ -40,6 +40,7 @@ const Canvas = () => {
     const [actionData, setActionData] = useState("");
 
     const loadCanvas = async () => {
+        setIsLoading(true);
         try {
             const response = await axios.get(global.route + `/api/canvases/${user.canvasid}`, { withCredentials: true });
             localStorage.setItem("Canvas", JSON.stringify(response.data));
@@ -47,6 +48,7 @@ const Canvas = () => {
         } catch (error) {
             console.warn(error);
         }
+        setIsLoading(false);
     }
 
     useEffect(() => {
@@ -117,7 +119,7 @@ const Canvas = () => {
     const setCanvasData = async (title) => {
         if (title)
             setModalName(title);
-
+        
         try {
             if (localStorage.getItem("Canvas") !== null) {
                 const canvas = JSON.parse(localStorage.getItem("Canvas"));
@@ -184,7 +186,7 @@ const Canvas = () => {
 
                 {/* ROW 2 */}
                 <div className="grid-row">
-                    <CanvasItem title={"INNOVATION WNGO"} text={""} />
+                    <CanvasItem title={"Backlog"} text={""} />
 
                     <div className="grid-inner">
                         <div className="grid-inner-row">
@@ -205,7 +207,7 @@ const Canvas = () => {
                         <KeyTimings />
                     </div>
 
-                    <CanvasItem title={"INNOVATION OGRP"} text={""} />
+                    <CanvasItem title={"Deliverables"} text={""} />
                 </div>
             </div>
 

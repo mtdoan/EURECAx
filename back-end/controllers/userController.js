@@ -22,7 +22,6 @@ const authUser = asyncHandler(async (req, res) => {
             isAdmin: user.isAdmin,
             canvasid: user.canvasid,
             bio: user.bio,
-            bio: user.bio,
         });
     } else {
         res.status(401);
@@ -35,9 +34,7 @@ const authUser = asyncHandler(async (req, res) => {
 // @access Public
 const registerUser = asyncHandler(async (req, res) => {
     const { username, firstname, lastname, email, password, isAdmin, canvasid, bio } = req.body;
-    console.log("bio is " + bio)
-    console.log( "CANVAS ID " + canvasid );
-
+    
     const userExists = await User.findOne({ email });
 
     if (userExists) {
@@ -54,8 +51,6 @@ const registerUser = asyncHandler(async (req, res) => {
         isAdmin,
         canvasid,
         bio,
-        canvasid,
-        bio
     });
 
     user.save();
@@ -111,11 +106,11 @@ const getUserProfile = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc Update user profile
-// @route PUT /api/users/profile
-// @access Private
-const updateUserProfile = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user._id);
+// @desc    Update user
+// @route   PUT /api/users/:id
+// @access  Private
+const updateUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
 
     if (user) {
         user.username = req.body.username || user.username;
@@ -125,19 +120,21 @@ const updateUserProfile = asyncHandler(async (req, res) => {
         user.isAdmin = req.body.isAdmin || user.isAdmin;
         user.canvasid = req.body.canvasid || user.canvasid;
         user.bio = req.body.bio || user.bio;
-        user.bio = req.body.bio || user.bio;
+
+        if (req.body.password) {
+            user.password = req.body.password;
+        }
 
         const updatedUser = await user.save();
 
         res.json({
             _id: updatedUser._id,
-            username: user.username,
-            firstname: user.firstname,
-            lastname: user.lastname,
+            username: updatedUser.username,
+            firstname: updatedUser.username,
+            lastname: updatedUser.lastname,
             email: updatedUser.email,
             isAdmin: updatedUser.isAdmin,
             canvasid: updatedUser.canvasid,
-            bio: updatedUser.bio,
             bio: updatedUser.bio,
         });
     } else {
@@ -183,51 +180,11 @@ const getUserById = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc    Update user
-// @route   PUT /api/users/:id
-// @access  Private
-const updateUser = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.params.id);
-
-    if (user) {
-        user.username = req.body.username || user.username;
-        user.firstname = req.body.firstname || user.firstname;
-        user.lastname = req.body.lastname || user.lastname;
-        user.email = req.body.email || user.email;
-        user.isAdmin = req.body.isAdmin || user.isAdmin;
-        user.canvasid = req.body.canvasid || user.canvasid;
-        user.bio = req.body.bio || user.bio;
-        user.bio = req.body.bio || user.bio;
-
-        if (req.body.password) {
-            user.password = req.body.password;
-        }
-
-        const updatedUser = await user.save();
-
-        res.json({
-            _id: updatedUser._id,
-            username: updatedUser.username,
-            firstname: updatedUser.username,
-            firstname: updatedUser.lastname,
-            email: updatedUser.email,
-            isAdmin: updatedUser.isAdmin,
-            canvasid: updatedUser.canvasid,
-            bio: updatedUser.bio,
-            bio: updatedUser.bio,
-        });
-    } else {
-        res.status(404);
-        throw new Error('User not found');
-    }
-});
-
 module.exports = {
     authUser,
     registerUser,
     logoutUser,
     getUserProfile,
-    updateUserProfile,
     getUsers,
     deleteUser,
     getUserById,

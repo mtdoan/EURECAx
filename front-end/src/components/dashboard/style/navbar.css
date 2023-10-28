@@ -1,16 +1,15 @@
 .navbar-container {
-    background-color: white;
+    /* background-color: white; */
     flex: 1;
     height: 72px;
     display: flex;
 }
 
 .searchbar {
-    min-width: 0;
-    /* max-width: 725px; */
-    width: 725px;
+    width: max(20%, 859px);
     height: 34px;
     margin-left: 38px;
+    margin-right: 43px;
     margin-top: 19px;
     padding-left: 8px;
     padding-right: 8px;
@@ -44,12 +43,6 @@
     box-shadow: none;
 }
 
-.execute-container {
-    flex: 1;
-    display: flex;
-    flex-direction: row;
-}
-
 .execute-button {
     height: 100%;
     width: 247px;
@@ -66,10 +59,10 @@
 
     margin: auto;
     width: 65%;
-
 }
 
 .execute-icon {
+    margin-left: 25px;
     margin-right: 5px;
 }
 
