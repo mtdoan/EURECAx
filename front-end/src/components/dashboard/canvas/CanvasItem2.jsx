@@ -10,17 +10,12 @@ const CanvasItem2 = (props) => {
     return (
         <>
             <div className="grid-item-2">
-                <text className="item-title">
+                <div className="item-title">
                     {props.title}
-                </text>
-
+                </div>
                 <div className="scroll-box">
                     <div className="scroll-box__wrapper">
-                        <div className="scroll-box__container" role="list">
-                            <text className="textbox" spellCheck="false">
-                                {props.text}
-                            </text>
-                        </div>
+                        {props.text}
                     </div>
                 </div>
             </div>

@@ -253,7 +253,7 @@ const DashboardFlow = () => {
       }, { withCredentials: true });
       localStorage.setItem("User", JSON.stringify(response.data));
       registerCanvas();
-      
+
       console.warn(error)
     }
     setIsLoading(false);
@@ -430,15 +430,15 @@ const DashboardFlow = () => {
 
           <div className="warning-backdrop">
             <div className="warning-container">
-              <text className="warning-heading">
+              <div className="warning-heading">
                 Warning
-              </text>
-              <text className="warning-subheading">
+              </div>
+              <div className="warning-subheading">
                 Are you sure you want to create a new canvas?
-              </text>
-              <text className="warning-description">
+              </div>
+              <div className="warning-description">
                 This will overwrite your current data.
-              </text>
+              </div>
 
               <div className="warning-action">
                 <button className="cancel-button" onClick={() => closeDialog()}>

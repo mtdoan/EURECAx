@@ -9,17 +9,12 @@ const MVI = (props) => {
     return (
         <>
             <div className="grid-item-mvi">
-                <text className="item-title">
+                <div className="item-title">
                     {props.title}
-                </text>
-
+                </div>
                 <div className="scroll-box">
                     <div className="scroll-box__wrapper">
-                        <div className="scroll-box__container" role="list">
-                            <span className="textbox" spellCheck="false">
-                                {props.text}
-                            </span>
-                        </div>
+                        {props.text}
                     </div>
                 </div>
             </div>
