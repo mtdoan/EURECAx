@@ -65,7 +65,6 @@ const registerUser = asyncHandler(async (req, res) => {
             isAdmin: user.isAdmin,
             canvasid: user.canvasid,
             bio: user.bio,
-            bio: user.bio,
         });
     } else {
         res.status(400);
@@ -97,7 +96,6 @@ const getUserProfile = asyncHandler(async (req, res) => {
             _id: user._id,
             username: user.username,
             email: user.email,
-            bio: user.bio,
             bio: user.bio,
         });
     } else {
