@@ -53,7 +53,7 @@ const registerUser = asyncHandler(async (req, res) => {
         password,
         isAdmin,
         canvasid,
-        bio
+        bio,
         canvasid,
         bio
     });
