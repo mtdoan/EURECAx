@@ -10,30 +10,21 @@
     z-index: 2;
 }
 
-.profile-menu:hover {
-    cursor: pointer;
-}
-
 .profile-menu {
     width: 212px;
-    height: 100px;
-
+    height: 100%;
+    cursor: pointer;
     display: flex;
     flex-direction: row;
     align-items: center;
-
-    margin-left: auto;
-    margin-top: auto;
-    margin-bottom: auto;
-    height: 80%;
+    justify-content: center;
 }
 
 .profile-in {
     height: 40px;
     width: 40px;
     border-radius: 50%;
-    margin-left: auto;
-    margin-right: 0;
+    margin: 0 auto;
     font-size: 16px;
     font-weight: 300;
     text-transform: uppercase;
@@ -54,8 +45,8 @@
 
 .dropdown-menu {
     position: absolute;
-    top: 60px; 
-    right: 10px; 
+    top: 60px;
+    right: 10px;
     background-color: #fff;
     border-radius: 10px;
     padding: 10px 20px;

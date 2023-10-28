@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
 import HamburgerMenu from "./hambugerMenu";
 import NavBar from "./NavBar";
 import Canvas from "./canvas/Canvas";
+import SearchContextProvider from "util/SearchContextProvider";
 
 export default function Dashboard() {
   let navigate = useNavigate();
@@ -20,17 +21,19 @@ export default function Dashboard() {
   return (
     <>
       <div className="App">
-        <div className="flex flex-row w-full">
-          <HamburgerMenu />
-          <div className="w-full border-l-[1px] border-gray-400">
-            <div className="[&_nav]:flex flex flex-row items-center w-full justify-center border-b-[1px] border-gray-400">
-              <NavBar />
-            </div>
-            <div className="flex flex-row h-[90vh] z-0">
-              <Outlet/>
+        <SearchContextProvider>
+          <div className="flex flex-row w-full">
+            <HamburgerMenu />
+            <div className="w-full border-l-[1px] border-gray-400">
+              <div className="[&_nav]:flex flex flex-row items-center w-full justify-center border-b-[1px] border-gray-400">
+                <NavBar />
+              </div>
+              <div className="flex flex-row h-[90vh] z-0">
+                <Outlet />
+              </div>
             </div>
           </div>
-        </div>
+        </SearchContextProvider>
       </div>
     </>
   );
