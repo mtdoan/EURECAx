@@ -9,9 +9,9 @@ const KeyTimings = (props) => {
     return (
         <>
             <div className="grid-item-timings">
-                <text className="item-title-2">
+                <div className="item-title-2">
                     Key Timings
-                </text>
+                </div>
             </div>
         </>
     )

@@ -10,17 +10,12 @@ const CanvasItem = (props) => {
     return (
         <>
             <div className="grid-item" onClick={props.onClick}>
-                <text className="item-title">
+                <div className="item-title top">
                     {props.title}
-                </text>
-
+                </div>
                 <div className="scroll-box">
                     <div className="scroll-box__wrapper">
-                        <div className="scroll-box__container" role="list">
-                            <text className="textbox" spellCheck="false">
-                                {props.text}
-                            </text>
-                        </div>
+                        {props.text}
                     </div>
                 </div>
             </div>

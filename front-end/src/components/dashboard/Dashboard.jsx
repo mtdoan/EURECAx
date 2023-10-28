@@ -22,8 +22,8 @@ export default function Dashboard() {
       <div className="App">
         <div className="flex flex-row w-full">
           <HamburgerMenu />
-          <div className="w-full border-l-2 ">
-            <div className="[&_nav]:flex flex flex-row items-center w-full justify-center border-b-2">
+          <div className="w-full border-l-[1px] border-gray-400">
+            <div className="[&_nav]:flex flex flex-row items-center w-full justify-center border-b-[1px] border-gray-400">
               <NavBar />
             </div>
             <div className="flex flex-row h-[90vh] z-0">
@@ -90,7 +90,7 @@ export default function Dashboard() {
 //                   Sign out
 //                 </button>
 //               </div> */}
-             
+
 //             </div>
 //           </div>
 //         </div>
