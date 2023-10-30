@@ -13,8 +13,7 @@ import PrivateRoute from "navigation/PrivateRoute";
 import PublicRoute from "navigation/PublicRoute";
 
 function App() {
-  // global.route = "https://eurecax-api-vercel.vercel.app"; // eurecax-api-vercel.vercel.app or http://localhost:3000
-  global.route = "http://localhost:3000"; // eurecax-api-vercel.vercel.app or
+  global.route = "https://eurecax-api-vercel.vercel.app"; // eurecax-api-vercel.vercel.app or http://localhost:3000
   global.llm = "http://localhost:4000"; // https://chaos1-llm.vercel.app or http://localhost:4000
 
   return (
