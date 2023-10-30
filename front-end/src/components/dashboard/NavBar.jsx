@@ -100,9 +100,9 @@ const NavBar = () => {
 
   return (
     <>
-      <div className="navbar-container">
+      <div className="navbar-container z-50">
         {isLoading ? <LoadingCircle /> : ""}
-        <form className="searchbar">
+        <form className="searchbar my-auto">
           <div className="icon">
             <SearchIcon />
           </div>
@@ -116,9 +116,9 @@ const NavBar = () => {
             <CommandIcon />
           </button>
         </form>
-        <div>
+        <div className="ml-auto">
           <button
-            className="execute-button"
+            className="execute-button hover:opacity-90 transition-opacity"
             onClick={() => {
               handleSubmit();
             }}
@@ -147,7 +147,7 @@ const NavBar = () => {
             <h4 className="profile-name">{user.firstname}</h4>
           )}
           <div
-            className={`dropdown-menu ${dropdownStatus ? "active" : "inactive"
+            className={`dropdown-menu shadow-xl ${dropdownStatus ? "active" : "inactive"
               }`}
           >
             <ProfileButton />

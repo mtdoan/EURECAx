@@ -23,21 +23,10 @@ function App() {
           <Route exact path="/" element={<PrivateRoute />}>
             <Route exact path="/" element={<Dashboard />}>
               <Route index element={<Canvas />} />
+              <Route exact path="/dashboard" element={<Canvas />} />
+              <Route exact path="/new-project" element={<DashboardFlow />} />
+              <Route exact path="/profile" element={<ProfileCard />} />
             </Route>
-          </Route>
-          <Route exact path="/dashboard" element={<PrivateRoute />}>
-            <Route exact path="/dashboard" element={<Dashboard />}>
-              <Route index element={<Canvas />} />
-            </Route>
-          </Route>
-          <Route exact path="/new-project" element={<PrivateRoute />}>
-            <Route exact path="/new-project" element={<DashboardFlow />} />
-          </Route>
-          <Route exact path="/profile" element={<PrivateRoute />}>
-            <Route exact path="/profile" element={<ProfileCard />} />
-          </Route>
-          <Route exact path="/profile" element={<PrivateRoute />}>
-            <Route exact path="/profile" element={<ProfileCard />} />
           </Route>
           <Route exact path="/signUp" element={<PublicRoute />}>
             <Route exact path="/signUp" element={<SignUp />} />

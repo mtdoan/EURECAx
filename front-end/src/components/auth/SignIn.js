@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import LoadingCircle from "components/shared/LoadingCircle";
+import { inputPatterns } from "util/validation";
+import { Tooltip } from "components/shared";
 
 export default function SignIn() {
   let navigate = useNavigate();
@@ -54,15 +56,22 @@ export default function SignIn() {
             Sign in to your account
           </h2>
         </div>
-
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" onSubmit={(e) => handleSubmit(e)}>
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium leading-6 text-gray-900"
+                className="text-sm font-medium leading-6 text-gray-900 flex flex-row items-center gap-1"
               >
                 Email address
+                <Tooltip
+                  tip={
+                    <div className="w-60">
+                      Please enter your email address in the format
+                      example@example.com.
+                    </div>
+                  }
+                />
               </label>
               <div className="mt-2">
                 <input
@@ -72,6 +81,7 @@ export default function SignIn() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   autoComplete="email"
+                  pattern={inputPatterns.email}
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -82,9 +92,23 @@ export default function SignIn() {
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="text-sm font-medium leading-6 text-gray-900 flex flex-row items-center gap-1"
                 >
                   Password
+                  <Tooltip
+                    tip={
+                      <div className="w-60">
+                        Please enter a password that is at least 8 characters
+                        long and contains at least:
+                        <ul className="list-disc list-inside font-normal">
+                          <li>One uppercase letter</li>
+                          <li>One lowercase letter</li>
+                          <li>One number</li>
+                          <li>One special character</li>
+                        </ul>
+                      </div>
+                    }
+                  />
                 </label>
                 {/* <div className="text-sm">
                                     <a className="font-semibold text-indigo-600 hover:text-indigo-500">
@@ -100,6 +124,7 @@ export default function SignIn() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   autoComplete="current-password"
+                  pattern={inputPatterns.password}
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -109,8 +134,6 @@ export default function SignIn() {
             <div>
               <button
                 type="submit"
-                onSubmit={(e) => handleSubmit(e)}
-                onClick={(e) => handleSubmit(e)}
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Sign in

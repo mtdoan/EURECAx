@@ -46,29 +46,40 @@ const registerCanvas = asyncHandler(async (req, res) => {
 // @route GET /api/canvases/info
 // @access Private
 const getCanvasById = asyncHandler(async (req, res) => {
-    const canvas = await Canvas.findById(req.params.id).select();
+	try {
+			const canvas = await Canvas.findById(req.params.id).select();
 
-    if (canvas) {
-        res.json(canvas);
-    } else {
-        res.status(404);
-        throw new Error('Canvas not found');
-    }
+			if (canvas) {
+					res.json(canvas);
+			} else {
+					res.status(404);
+					throw new Error('Canvas not found');
+			}
+	} catch (error) {
+			console.error(error)
+			res.status(404);
+	}
 });
 
 // @desc Delete canvas
 // @route DELETE /api/canvases/info
 // access Private
 const deleteCanvas = asyncHandler(async (req, res) => {
-    const canvas = await Canvas.findById(req.params.id).select();
+	try {
+			const canvas = await Canvas.findById(req.params.id).select();
 
-    if (canvas) {
-        await canvas.deleteOne({ _id: canvas._id });
-        res.json({ message: 'Canvas deleted' });
-    } else {
-        res.status(404);
-        throw new Error('Canvas not found');
-    }
+			if (canvas) {
+					await canvas.deleteOne({ _id: canvas._id });
+					res.json({ message: 'Canvas deleted' });
+			} else {
+					res.status(404);
+					throw new Error('Canvas not found');
+			}
+	} catch (error) {
+			console.error(error)
+			res.status(404);
+	}
+    
 });
 
 // @desc Update canvas info

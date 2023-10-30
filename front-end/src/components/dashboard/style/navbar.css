@@ -10,7 +10,6 @@
     height: 34px;
     margin-left: 38px;
     margin-right: 43px;
-    margin-top: 19px;
     padding-left: 8px;
     padding-right: 8px;
     border-radius: 16px;
@@ -46,8 +45,6 @@
 .execute-button {
     height: 100%;
     width: 247px;
-    margin-left: auto;
-    margin-right: 0;
     color: white;
     background-color: #006CFD;
 }
@@ -56,7 +53,6 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-
     margin: auto;
     width: 65%;
 }
